@@ -1,0 +1,9 @@
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore IDEs and text editors' temporary files
+*.swp
+
+# Ignore logs and other generated files
+*.log
