@@ -1,7 +1,7 @@
 import GenerativnoStablo as GS
 
 #IZRAZI
-class primarni_cvor(GS.Cvor):
+class primarni_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tip = None
