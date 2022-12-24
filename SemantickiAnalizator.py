@@ -1,14 +1,18 @@
 import sys
 import GenerativnoStablo as GS
 import nezavrsni_klase as NK
+import ProgramskoStablo as PS
 
 ulaz = sys.stdin.read()
 lines = ulaz.split('\n')
 lines.pop()
 #print(lines)
 
+trenutni_blok = PS.Cvor("Globalni blok")
+PS.Cvor.korijen = trenutni_blok
 trenutni = None
 dubina = 0
+dubina_bloka = 0
 
 def novi_cvor(value, dubina = 0, parent = None):
     novi = None
@@ -52,7 +56,12 @@ def novi_cvor(value, dubina = 0, parent = None):
         case "<izraz>":
             novi = NK.izraz(value, dubina, parent)
         case "<slozena_naredba>":
+            global trenutni_blok
             novi = NK.slozena_naredba(value, dubina, parent)
+            pnovi = PS.Cvor(value, trenutni_blok.dubina + 1, trenutni_blok)
+            trenutni_blok.add_child(pnovi)
+            trenutni_blok = pnovi
+            dubina_bloka = trenutni_blok.dubina
         case "<lista_naredbi>":
             novi = NK.lista_naredbi(value, dubina, parent)
         case "<naredba>":
@@ -89,7 +98,7 @@ def novi_cvor(value, dubina = 0, parent = None):
             novi = NK.inicijalizator(value, dubina, parent)
         case _:
             novi = GS.Cvor(value, dubina, parent)        
-            
+
     return novi
 
 for line in lines:
@@ -110,9 +119,16 @@ for line in lines:
     elif num_leading_spaces < dubina:
         trenutni = trenutni.go_up(dubina - num_leading_spaces )
         dubina = num_leading_spaces
+        if dubina < dubina_bloka:
+            trenutni_blok = trenutni_blok.go_up(dubina_bloka - dubina)
+            dubina_bloka = dubina
+            print("mijenjam neki kurac")
+            print(trenutni)
+            print(trenutni_blok)
         novi = novi_cvor(bez_spaceova, dubina, trenutni.parent)
         trenutni.parent.add_child(novi)
         trenutni = novi
+        
 
     else:
         novi = novi_cvor(bez_spaceova, dubina, trenutni.parent)
@@ -121,4 +137,5 @@ for line in lines:
 
     #print(trenutni)
     
-GS.Cvor.korijen.print_tree()    
+GS.Cvor.korijen.print_tree()
+PS.Cvor.korijen.print_tree()

@@ -1,4 +1,5 @@
-class cvor:
+class Cvor:
+    korijen = None
     def __init__(self, value, dubina = 0, parent = None):
         self.value = value
         self.dubina = dubina
@@ -19,4 +20,8 @@ class cvor:
     
     def __str__(self):
         return self.dubina*" " + self.value
-        
+    
+    def print_tree(self):
+        print(self)
+        for child in self.children:
+            child.print_tree()
