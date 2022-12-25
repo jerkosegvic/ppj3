@@ -2,6 +2,7 @@ import sys
 import GenerativnoStablo as GS
 import nezavrsni_klase as NK
 import ProgramskoStablo as PS
+import zavrsni_klase as ZK
 
 ulaz = sys.stdin.read()
 lines = ulaz.split('\n')
@@ -14,32 +15,34 @@ trenutni = None
 dubina = 0
 dubina_bloka = 0
 
-def novi_cvor(value, dubina = 0, parent = None):
+def novi_cvor(fullvalue, dubina = 0, parent = None):
     novi = None
+    value_list = fullvalue.split(' ')
+    value = value_list[0]
     match value:
-        case "<primarni izraz>":
+        case "<primarni_izraz>":
             novi = NK.primarni_izraz(value, dubina, parent)
-        case "<postfiks izraz>":
+        case "<postfiks_izraz>":
             novi = NK.postfiks_izraz(value, dubina, parent)
-        case "<lista argumenata>":
+        case "<lista_argumenata>":
             novi = NK.lista_argumenata(value, dubina, parent)
-        case "<unarni izraz>":
+        case "<unarni_izraz>":
             novi = NK.unarni_izraz(value, dubina, parent)
-        case "<unarni operator>":
+        case "<unarn_ operator>":
             novi = NK.unarni_operator(value, dubina, parent)
-        case "<cast izraz>":
+        case "<cast_izraz>":
             novi = NK.cast_izraz(value, dubina, parent)
-        case "<ime tipa>":
+        case "<ime_tipa>":
             novi = NK.ime_tipa(value, dubina, parent)
-        case "<specifikator tipa>":
+        case "<specifikator_tipa>":
             novi = NK.specifikator_tipa(value, dubina, parent)
-        case "<multiplikativni izraz>":
+        case "<multiplikativni_izraz>":
             novi = NK.multiplikativni_izraz(value, dubina, parent)
-        case "<aditivni izraz>":
+        case "<aditivni_izraz>":
             novi = NK.aditivni_izraz(value, dubina, parent)
-        case "<odnosni izraz>":
+        case "<odnosni_izraz>":
             novi = NK.odnosni_izraz(value, dubina, parent)
-        case "<jednakosni izraz>":
+        case "<jednakosni_izraz>":
             novi = NK.jednakosni_izraz(value, dubina, parent)
         case "<bin_i_izraz>":
             novi = NK.bin_i_izraz(value, dubina, parent)
@@ -57,11 +60,13 @@ def novi_cvor(value, dubina = 0, parent = None):
             novi = NK.izraz(value, dubina, parent)
         case "<slozena_naredba>":
             global trenutni_blok
+            global dubina_bloka
             novi = NK.slozena_naredba(value, dubina, parent)
             pnovi = PS.Cvor(value, trenutni_blok.dubina + 1, trenutni_blok)
             trenutni_blok.add_child(pnovi)
             trenutni_blok = pnovi
-            dubina_bloka = trenutni_blok.dubina
+            dubina_bloka = dubina
+            #print(dubina_bloka)
         case "<lista_naredbi>":
             novi = NK.lista_naredbi(value, dubina, parent)
         case "<naredba>":
@@ -96,8 +101,19 @@ def novi_cvor(value, dubina = 0, parent = None):
             novi = NK.izravni_deklarator(value, dubina, parent)
         case "<inicijalizator>":
             novi = NK.inicijalizator(value, dubina, parent)
-        case _:
-            novi = GS.Cvor(value, dubina, parent)        
+        case "<lista_izraza_pridruzivanja>":
+            novi = NK.lista_izraza_pridruzivanja(value, dubina, parent)
+        case "IDN":
+            novi = ZK.IDN(value, value_list[2], dubina, parent)
+        case "BROJ":
+            novi = ZK.BROJ(value, value_list[2], dubina, parent)
+        case "ZNAK":
+            novi = ZK.ZNAK(value, value_list[2], dubina, parent)
+        case "NIZ_ZNAKOVA":
+            novi = ZK.NIZ_ZNAKOVA(value, value_list[2], dubina, parent)
+        case _ :
+            novi = GS.Cvor(value, dubina, parent)   
+    print(novi)     
 
     return novi
 
@@ -105,6 +121,8 @@ for line in lines:
     bez_spaceova = line.lstrip()
     num_leading_spaces = len(line) - len(bez_spaceova)
     if trenutni == None:
+        #print("bez spaceova: " , end = " -> ")
+        #print(bez_spaceova)
         trenutni = novi_cvor(bez_spaceova, dubina)
         GS.Cvor.korijen = trenutni
         dubina = num_leading_spaces
@@ -122,11 +140,11 @@ for line in lines:
         if dubina < dubina_bloka:
             trenutni_blok = trenutni_blok.go_up(dubina_bloka - dubina)
             dubina_bloka = dubina
-            print("mijenjam neki kurac")
-            print(trenutni)
-            print(trenutni_blok)
+            #print("mijenjam neki kurac")
+            #print(trenutni)
+            #print(trenutni_blok)
         novi = novi_cvor(bez_spaceova, dubina, trenutni.parent)
-        trenutni.parent.add_child(novi)
+        trenutni.parent.add_child(novi)  
         trenutni = novi
         
 
@@ -139,3 +157,4 @@ for line in lines:
     
 GS.Cvor.korijen.print_tree()
 PS.Cvor.korijen.print_tree()
+

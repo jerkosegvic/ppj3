@@ -14,7 +14,7 @@ class postfiks_izraz(GS.Cvor):
         self.lizraz = None
 
 class lista_argumenata(GS.Cvor):
-    def __init__(self, value, tipovi, dubina = 0, parent = None):
+    def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tipovi = []
 
@@ -165,10 +165,10 @@ class lista_parametara(GS.Cvor):
         self.imena = []
 
 class deklaracija_parametra(GS.Cvor):
-    def __init__(self, value, tip, ime, dubina = 0, parent = None):
+    def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
-        self.tip = tip
-        self.ime = ime
+        self.tip = None
+        self.ime = None
     
 class lista_deklaracija(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -194,6 +194,12 @@ class izravni_deklarator(GS.Cvor):
         self.broj_elemenata = None
 
 class inicijalizator(GS.Cvor):
+    def __init__(self, value, dubina = 0, parent = None):
+        GS.Cvor.__init__(self, value, dubina, parent)
+        self.tipovi = []
+        self.broj_elemenata = None
+
+class lista_izraza_pridruzivanja(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tipovi = []
