@@ -72,7 +72,7 @@ class postfiks_izraz(GS.Cvor):
             c3 = self.children[2]
             c4 = self.children[3]
 
-            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.LU_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.DU_ZAGRADA):
+            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.L_UGL_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.D_UGL_ZAGRADA):
 
                 #ovo je indeksiranje, oblik tipa a[2]
 
