@@ -1,12 +1,17 @@
 class Cvor:
     korijen = None
+    cid = 0
+    cvorovi = []
     def __init__(self, value, dubina = 0, parent = None):
         self.value = value
         self.dubina = dubina
         self.parent = parent
         self.children = []
         self.tablica = {}
-    
+        self.id = Cvor.cid
+        Cvor.cid += 1
+        Cvor.cvorovi.append(self)
+
     def add_child(self, child):
         self.children.append(child)
     
@@ -19,7 +24,7 @@ class Cvor:
             return self.parent.go_up(n-1)
     
     def __str__(self):
-        return self.dubina*" " + self.value
+        return self.dubina*" " + self.value + ", ID " + str(self.id)
     
     def print_tree(self):
         print(self)
