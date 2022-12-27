@@ -72,7 +72,7 @@ class postfiks_izraz(GS.Cvor):
             c3 = self.children[2]
             c4 = self.children[3]
 
-            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.L_UGL_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.D_UGL_ZAGRADA):
+            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.LU_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.DU_ZAGRADA):
 
                 #ovo je indeksiranje, oblik tipa a[2]
 
@@ -724,37 +724,329 @@ class slozena_naredba(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
 
+    def izvedi_svojstva(self):
+        if len(self.children) == 3:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, ZK.L_VIT_ZAGRADA) and isinstance(c2, lista_naredbi) and isinstance(c3, ZK.D_VIT_ZAGRADA):
+
+                c2.izvedi_svojstva()
+            else:
+                pass
+
+        elif len(self.children) == 4:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+
+            if isinstance(c1,ZK.L_VIT_ZAGRADA) and isinstance(c2,lista_deklaracija) \
+                and isinstance(c3, lista_naredbi) and isinstance(c4,ZK.D_VIT_ZAGRADA):
+                c2.izvedi_svojstva()
+                c3.izvedi_svojstva()
+
+            else:
+                pass
+    
+        else:
+            pass
+
+
 class lista_naredbi(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+            c1 = self.children[0]
+
+            if isinstance(c1, naredba):
+                c1.izvedi_svojstva()
+            else:
+                pass
+        elif len(self.children) == 2:
+            c1 = self.children[0]
+            c2 = self.children[1]
+
+            if isinstance(c1, lista_naredbi) and isinstance(c2, naredba):
+                c1.izvedi_svojstva()
+                c2.izvedi_svojstva()
+
+            else: pass
+        else:
+            pass
+
 
 class naredba(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
 
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+            c1 = self.children[0]
+
+            if isinstance(c1, izraz_naredba):
+                c1.izvedi_svojstva()
+
+            elif isinstance(c1, naredba_grananja):
+                c1.izvedi_svojstva()
+            
+            elif isinstance(c1, naredba_petlje):
+                c1.izvedi_svojstva()
+
+            elif isinstance(c1, naredba_skoka):
+                c1.izvedi_svojstva()
+
+            else:
+                pass
+        else:
+            pass
+
 class izraz_naredba(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+            c1 = self.children[0]
+
+            if isinstance(c1, ZK.TOCKAZAREZ):
+                self.tip = 'int'
+            else:
+                pass
+        elif len(self.children) == 2:
+            c1 = self.children[0]
+            c2 = self.children[1]
+
+            if isinstance(c1, izraz) and isinstance(c2, ZK.TOCKAZAREZ):
+                c1.izvedi_svojstva()
+                self.tip = c1.tip
+            else:
+                pass
+        else:
+            pass
 
 class naredba_grananja(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
 
+    def izvedi_svojstva(self):
+        if len(self.children) == 5:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+            c5 = self.children[4]
+
+            if isinstance(c1, ZK.KR_IF) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz) \
+                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba):
+
+                c3.izvedi_svojstva()
+
+                if c3.tip != 'int':
+                    pass
+
+                c5.izvedi_svojstva()
+            
+            else:
+                pass
+
+        elif len(self.children) == 7:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+            c5 = self.children[4]
+            c6 = self.children[4]
+            c7 = self.children[4]
+
+            if isinstance(c1, ZK.KR_IF) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz) \
+                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba) and isinstance(c6, ZK.KR_ELSE) and isinstance(c7, naredba):
+
+                c3.izvedi_svojstva()
+
+                if c3.tip != 'int':
+                    pass
+
+                c5.izvedi_svojstva()
+                c7.izvedi_svojstva()
+
+            else:
+                pass
+
+        else:
+            pass
+            
+
+
+
+
 class naredba_petlje(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+
+    def izvedi_svojstva(self):
+
+        if len(self.children) == 5:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+            c5 = self.children[4]
+
+            if isinstance(c1, ZK.KR_WHILE) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz) \
+                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba):
+
+                c3.izvedi_svojstva()
+
+                if c3.tip != 'int':
+                    pass
+
+                c5.izvedi_svojstva()
+            
+            else:
+                pass
+
+        elif len(self.children) == 6:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+            c5 = self.children[4]
+            c6 = self.children[5]
+
+            if isinstance(c1, ZK.KR_FOR) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz_naredba) \
+               and isinstance(c4, izraz_naredba) and isinstance(c5, ZK.D_ZAGRADA) and isinstance(c6, naredba):
+
+               c3.izvedi_svojstva()
+               c4.izvedi_svojstva()
+
+               if c4.tip != 'int':
+                    pass
+
+               c6.izvedi_svojstva()
+            else:
+                pass
+
+        elif len(self.children) == 7:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+            c5 = self.children[4]
+            c6 = self.children[5]
+            c7 = self.children[6]
+
+            if isinstance(c1, ZK.KR_FOR) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz_naredba) \
+               and isinstance(c4, izraz_naredba) and isinstance(c5, izraz) and isinstance(c6, ZK.D_ZAGRADA) and isinstance(c7, naredba):
+
+               c3.izvedi_svojstva()
+               c4.izvedi_svojstva()
+
+               if c4.tip != 'int':
+                    pass
+               
+               c5.izvedi_svojstva()
+               c6.izvedi_svojstva()
+            else:
+                pass
+        else:
+            pass
+
+
 
 class naredba_skoka(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
 
+    def izvedi_svojstva(self):
+        if len(self.children) == 2:
+            c1 = self.children[0]
+            c2 = self.children[1]
+
+            if (isinstance(c1, ZK.KR_BREAK) or isinstance(c1, ZK.KR_CONTINUE)) and isinstance(c2, ZK.TOCKAZAREZ):
+
+                uvjet = pomocne.u_petlji(self)
+
+                if not uvjet:
+                    pass
+
+            elif isinstance(c1, ZK.KR_RETURN) and isinstance(c2, ZK.TOCKAZAREZ):
+
+                uvjet = pomocne.u_void_funckiji(self)
+
+                if not uvjet:
+                    pass
+
+            else:
+                pass
+        elif len(self.children) == 3:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, ZK.KR_RETURN) and isinstance(c2, izraz) and isinstance(c3, ZK.TOCKAZAREZ):
+                c2.izvedi_svojstva()
+                pov = pomocne.tip_funckije(self, c2.tip)
+
+                if not pov:
+                    pass
+
+            else:
+                pass
+        else:
+            pass
+
 class prijevodna_jedinica(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
 
+    def izvedi_svojstva(self):
+        
+        if len(self.children) == 1:
+            c1 = self.childrem[0] 
+
+            if isinstance(c1, vanjska_deklaracija):
+                vanjska_deklaracija.izvedi_svojstva()
+            else:
+                pass
+
+        elif len(self.children) == 2:
+            c1 = self.children[0]
+            c2 = self.children[1]
+
+            if isinstance(c1, prijevodna_jedinica) and isinstance(c2, vanjska_deklaracija):
+
+                c1.izvedi_svojstva()
+                c2.izvedi_svojstva()
+            else:
+                pass
+        else:
+            pass
+
 class vanjska_deklaracija(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
-        GS.Cvor.__init__(self, value, dubina, parent)        
+        GS.Cvor.__init__(self, value, dubina, parent)      
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+
+            c1 = self.children[0]
+
+            if isinstance(c1, deklaracija):
+                c1.izvedi_svojstva()  
+            
+            elif isinstance(c1, definicija_funkcije):
+                c1.izvedi_svojstva()
+            else:
+                pass
+        else:
+            pass
 
 #DEKLARACIJE I DEFINICIJE
 class definicija_funkcije(GS.Cvor):
