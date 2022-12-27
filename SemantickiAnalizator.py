@@ -3,6 +3,7 @@ import GenerativnoStablo as GS
 import nezavrsni_klase as NK
 import ProgramskoStablo as PS
 import zavrsni_klase as ZK
+import copy
 
 ulaz = sys.stdin.read()
 lines = ulaz.split('\n')
@@ -77,8 +78,9 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             elif isinstance(parent.parent , NK.naredba_petlje):
                 inst = parent.parent.children[0].tip
             
-
-            pnovi = PS.Cvor(value, inst, rv, trenutni_blok.dubina + 1, trenutni_blok)
+            nas = copy.deepcopy(trenutni_blok.nasljedena_tablica)
+            nas.update(trenutni_blok.tablica_lokalnih)
+            pnovi = PS.Cvor(value, nas, inst, rv, trenutni_blok.dubina + 1, trenutni_blok)
             trenutni_blok.add_child(pnovi)
             trenutni_blok = pnovi
             dubina_bloka = dubina

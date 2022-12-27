@@ -2,12 +2,13 @@ class Cvor:
     korijen = None
     cid = 0
     cvorovi = []
-    def __init__(self, value, tip = None, rt = None, dubina = 0, parent = None):
+    def __init__(self, value, nas = {}, tip = None, rt = None, dubina = 0, parent = None):
         self.value = value
         self.dubina = dubina
         self.parent = parent
         self.children = []
-        self.tablica = {}
+        self.tablica_lokalnih = {}
+        self.nasljedena_tablica = nas
         self.tip = tip
         self.return_tip = rt
         self.id = Cvor.cid
