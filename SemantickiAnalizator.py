@@ -112,8 +112,9 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
         case "NIZ_ZNAKOVA":
             novi = ZK.NIZ_ZNAKOVA(value, value_list[2], dubina, parent)
         case _ :
-            novi = GS.Cvor(value, dubina, parent)   
-    print(novi)     
+            novi = GS.Cvor(value, dubina, parent)
+    GS.Cvor.tablice.append(trenutni_blok.id)
+    print(novi)  
 
     return novi
 
@@ -138,7 +139,7 @@ for line in lines:
         trenutni = trenutni.go_up(dubina - num_leading_spaces )
         dubina = num_leading_spaces
         if dubina < dubina_bloka:
-            trenutni_blok = trenutni_blok.go_up(dubina_bloka - dubina)
+            trenutni_blok = trenutni_blok.go_up(1)
             dubina_bloka = dubina
             #print("mijenjam neki kurac")
             #print(trenutni)
@@ -157,4 +158,3 @@ for line in lines:
     
 GS.Cvor.korijen.print_tree()
 PS.Cvor.korijen.print_tree()
-

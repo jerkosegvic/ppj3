@@ -1,5 +1,8 @@
 class Cvor:
     korijen = None
+    cid = 0
+    tablice = []
+    cvorovi = []
     def __init__(self, value, dubina = 0, parent = None):
         self.value = value
         self.children = []
@@ -7,7 +10,10 @@ class Cvor:
         self.dubina = dubina
         self.nasljedna = []
         self.izvedena = []
-        
+        self.id = Cvor.cid
+        Cvor.cid += 1
+        Cvor.cvorovi.append(self)
+
     def go_up(self, n):
         if self.parent == None:
             return self
