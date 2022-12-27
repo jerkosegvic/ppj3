@@ -787,8 +787,10 @@ class naredba(GS.Cvor):
     def izvedi_svojstva(self):
         if len(self.children) == 1:
             c1 = self.children[0]
-
-            if isinstance(c1, izraz_naredba):
+            if isinstance(c1, slozena_naredba):
+                c1.izvedi_svojstva()
+                
+            elif isinstance(c1, izraz_naredba):
                 c1.izvedi_svojstva()
 
             elif isinstance(c1, naredba_grananja):
