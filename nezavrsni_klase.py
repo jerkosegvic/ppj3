@@ -16,6 +16,10 @@ class primarni_izraz(GS.Cvor):
             if isinstance(child, ZK.IDN):
                 self.tip = child.tip
                 self.lizraz = child.lizraz
+                uvjet = pomocne.provjeri_idn(c1)
+
+                if not uvjet:
+                    pass
 
             elif isinstance(child, ZK.BROJ):
                 self.tip = 'int'
@@ -65,7 +69,22 @@ class postfiks_izraz(GS.Cvor):
                 self.lizraz = child.lizraz
             else:
                 pass
-        
+        elif len(self.children) == 3:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.LU_ZAGRADA) and isinstance(c3, ZK.DU_ZAGRADA):
+                c1.izvedi_svojstva()
+
+                if c1.tip.startswith('niz'):
+                    self.tip = c1.tip[4:len(c1.tip)-1]
+                    self.lizraz = 1
+                else:
+                    pass
+            else:
+                pass
+
         elif len(self.children == 4): 
             c1 = self.children[0]
             c2 = self.children[1]
@@ -789,7 +808,7 @@ class naredba(GS.Cvor):
             c1 = self.children[0]
             if isinstance(c1, slozena_naredba):
                 c1.izvedi_svojstva()
-                
+
             elif isinstance(c1, izraz_naredba):
                 c1.izvedi_svojstva()
 
