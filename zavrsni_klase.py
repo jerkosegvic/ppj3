@@ -55,7 +55,8 @@ class KR_RETURN(GS.Cvor):
 class KR_CHAR(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
-
+        self.tip = "char"
+    
     def __str__(self):
         return self.dubina*" " + self.value
 
@@ -69,6 +70,7 @@ class KR_CONST(GS.Cvor):
 class KR_INT(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.tip = "int"
 
     def __str__(self):
         return self.dubina*" " + self.value
@@ -76,6 +78,7 @@ class KR_INT(GS.Cvor):
 class KR_VOID(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.tip = "void"
 
     def __str__(self):
         return self.dubina*" " + self.value
@@ -83,6 +86,7 @@ class KR_VOID(GS.Cvor):
 class KR_IF(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.tip = "if"
 
     def __str__(self):
         return self.dubina*" " + self.value
@@ -90,6 +94,7 @@ class KR_IF(GS.Cvor):
 class KR_ELSE(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.tip = "else"
 
     def __str__(self):
         return self.dubina*" " + self.value
@@ -97,6 +102,7 @@ class KR_ELSE(GS.Cvor):
 class KR_WHILE(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.tip = "while"
 
     def __str__(self):
         return self.dubina*" " + self.value
@@ -104,6 +110,7 @@ class KR_WHILE(GS.Cvor):
 class KR_FOR(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.tip = "for"
 
     def __str__(self):
         return self.dubina*" " + self.value

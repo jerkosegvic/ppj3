@@ -62,7 +62,23 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             global trenutni_blok
             global dubina_bloka
             novi = NK.slozena_naredba(value, dubina, parent)
-            pnovi = PS.Cvor(value, trenutni_blok.dubina + 1, trenutni_blok)
+            inst = None
+            rv = None
+            if isinstance(parent, NK.definicija_funkcije):
+                inst = "funkcija"
+                rv = parent.children[0].children[-1].children[0].tip
+            
+            elif isinstance(parent.parent , NK.naredba_grananja):
+                if len(parent.parent.children) == 5:
+                    inst = "if"
+                else:
+                    inst = "else"
+
+            elif isinstance(parent.parent , NK.naredba_petlje):
+                inst = parent.parent.children[0].tip
+            
+
+            pnovi = PS.Cvor(value, inst, rv, trenutni_blok.dubina + 1, trenutni_blok)
             trenutni_blok.add_child(pnovi)
             trenutni_blok = pnovi
             dubina_bloka = dubina
@@ -111,10 +127,93 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             novi = ZK.ZNAK(value, value_list[2], dubina, parent)
         case "NIZ_ZNAKOVA":
             novi = ZK.NIZ_ZNAKOVA(value, value_list[2], dubina, parent)
-        case _ :
-            novi = GS.Cvor(value, dubina, parent)
+        case "KR_BREAK":
+            novi = ZK.KR_BREAK(value, dubina, parent)
+        case "KR_CONTINUE":
+            novi = ZK.KR_CONTINUE(value, dubina, parent)
+        case "KR_RETURN":
+            novi = ZK.KR_RETURN(value, dubina, parent)
+        case "KR_IF":
+            novi = ZK.KR_IF(value, dubina, parent)
+        case "KR_ELSE":
+            novi = ZK.KR_ELSE(value, dubina, parent)
+        case "KR_WHILE":
+            novi = ZK.KR_WHILE(value, dubina, parent)
+        case "KR_FOR":
+            novi = ZK.KR_FOR(value, dubina, parent)
+        case "KR_DO":
+            novi = ZK.KR_DO(value, dubina, parent)
+        case "KR_INT":
+            novi = ZK.KR_INT(value, dubina, parent)
+        case "KR_CHAR":
+            novi = ZK.KR_CHAR(value, dubina, parent)
+        case "KR_VOID":
+            novi = ZK.KR_VOID(value, dubina, parent)
+        #define cases for all classes from zavrsni_klase.py
+        case "KR_CONST":
+            novi = ZK.KR_CONST(value, dubina, parent)
+        case "PLUS":
+            novi = ZK.PLUS(value, dubina, parent)
+        case "MINUS":
+            novi = ZK.MINUS(value, dubina, parent)
+        case "OP_INC":
+            novi = ZK.OP_INC(value, dubina, parent)
+        case "OP_DEC":
+            novi = ZK.OP_DEC(value, dubina, parent)
+        case "OP_PUTA":
+            novi = ZK.OP_PUTA(value, dubina, parent)
+        case "OP_DIJELI":
+            novi = ZK.OP_DIJELI(value, dubina, parent)
+        case "OP_MOD":
+            novi = ZK.OP_MOD(value, dubina, parent)
+        case "OP_NEG":
+            novi = ZK.OP_NEG(value, dubina, parent)
+        case "OP_TILDA":
+            novi = ZK.OP_TILDA(value, dubina, parent)
+        case "OP_PRIDRUZI":
+            novi = ZK.OP_PRIDRUZI(value, dubina, parent)
+        case "OP_LT":
+            novi = ZK.OP_LT(value, dubina, parent)
+        case "OP_GT":
+            novi = ZK.OP_GT(value, dubina, parent)
+        case "OP_LTE":
+            novi = ZK.OP_LTE(value, dubina, parent)
+        case "OP_GTE":
+            novi = ZK.OP_GTE(value, dubina, parent)
+        case "OP_EQ":
+            novi = ZK.OP_EQ(value, dubina, parent)
+        case "OP_NEQ":
+            novi = ZK.OP_NEQ(value, dubina, parent)
+        case "OP_I":
+            novi = ZK.OP_I(value, dubina, parent)
+        case "OP_ILI":
+            novi = ZK.OP_ILI(value, dubina, parent)
+        case "OP_BIN_I":
+            novi = ZK.OP_BIN_I(value, dubina, parent)
+        case "OP_BIN_ILI":
+            novi = ZK.OP_BIN_ILI(value, dubina, parent)
+        case "OP_BIN_XILI":
+            novi = ZK.OP_BIN_XILI(value, dubina, parent)
+        case "ZAREZ":
+            novi = ZK.ZAREZ(value, dubina, parent)
+        case "TOCKAZAREZ":
+            novi = ZK.TOCKAZAREZ(value, dubina, parent)
+        case "L_ZAGRADA":
+            novi = ZK.L_ZAGRADA(value, dubina, parent)
+        case "D_ZAGRADA":
+            novi = ZK.D_ZAGRADA(value, dubina, parent)
+        case "L_VIT_ZAGRADA":
+            novi = ZK.L_VIT_ZAGRADA(value, dubina, parent)
+        case "D_VIT_ZAGRADA":
+            novi = ZK.D_VIT_ZAGRADA(value, dubina, parent)
+        case "L_UGL_ZAGRADA":
+            novi = ZK.L_UGL_ZAGRADA(value, dubina, parent)
+        case "D_UGL_ZAGRADA":
+            novi = ZK.D_UGL_ZAGRADA(value, dubina, parent)
+#        case _ :
+#            novi = GS.Cvor(value, dubina, parent)
     GS.Cvor.tablice.append(trenutni_blok.id)
-    print(novi)  
+    #print(novi)  
 
     return novi
 
