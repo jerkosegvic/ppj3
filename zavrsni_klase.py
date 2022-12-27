@@ -4,6 +4,8 @@ class IDN(GS.Cvor):
     def __init__(self, value, vr, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.ime = vr
+        self.tip = None
+    
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + self.ime
 
