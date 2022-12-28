@@ -59,6 +59,17 @@ class postfiks_izraz(GS.Cvor):
         self.tip = None
         self.lizraz = None
 
+    def dohvati_idn(self):
+        if len(self.children) == 1:
+            c1 = self.children[0]
+
+            if isinstance(c1, primarni_izraz):
+
+                if isinstance(c1.children[0], ZK.IDN):
+                    return c1.children[0].ime
+        
+        return None
+
     def izvedi_svojstva(self):
         if len(self.children) == 1:
             child = self.children[0]
@@ -67,21 +78,6 @@ class postfiks_izraz(GS.Cvor):
                 child.izvedi_svojstva()
                 self.tip = child.tip
                 self.lizraz = child.lizraz
-            else:
-                pass
-        elif len(self.children) == 3:
-            c1 = self.children[0]
-            c2 = self.children[1]
-            c3 = self.children[2]
-
-            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.LU_ZAGRADA) and isinstance(c3, ZK.DU_ZAGRADA):
-                c1.izvedi_svojstva()
-
-                if c1.tip.startswith('niz'):
-                    self.tip = c1.tip[4:len(c1.tip)-1]
-                    self.lizraz = 1
-                else:
-                    pass
             else:
                 pass
 
@@ -101,7 +97,7 @@ class postfiks_izraz(GS.Cvor):
                     # niz tipa niz(niz(int)) nije dopušten!
                     tip = c1.tip[4:len(c1.tip)-1]
                     self.tip = tip
-                    
+                    # osiguraj samo jedan niz
                     if tip.startswith('const'):
                         self.lizraz = 0
                     else:
@@ -1079,12 +1075,98 @@ class definicija_funkcije(GS.Cvor):
         self.broj_parametara = 0
 
     #ime funkcije ce mu pridodati IDN, a tip <ime tipa>
+    def izvedi_svojstva(self):
+        if len(self.children) == 6:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+            c5 = self.children[4]
+            c6 = self.children[5]
+
+            if isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN) and isinstance(c3, ZK.L_ZAGRADA) \
+                and isinstance(c4, ZK.KR_VOID) and isinstance(c5, ZK.D_ZAGRADA) and isinstance(c6, slozena_naredba):
+
+                c1.izvedi_svojstva()
+
+                if c1.tip.startswith('const'):
+                    pass
+
+                uvjet = pomocne.provjeri_egzistenciju_funckije(self, c2.ime)
+
+                if uvjet:
+                    pass
+
+                #4. provjerit postoji li deklaracije funkcije
+
+                #zabiljezit deklaraciju
+
+                c6.izvedi_svojstva()
+
+            elif isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN) and isinstance(c3, ZK.L_ZAGRADA) \
+                and isinstance(c4, lista_parametara) and isinstance(c5, ZK.D_ZAGRADA) and isinstance(c6, slozena_naredba):
+
+                c1.izvedi_svojstva()
+
+                if c1.tip.startswith('const'):
+                    pass
+
+                uvjet = pomocne.provjeri_egzistenciju_funckije(self, c2.ime)
+
+                if uvjet:
+                    pass
+
+                c4.izvedi_svojstva()
+
+                # provjeri postoji li deklaracija
+                # zabilježi funkciju
+                # dodat varijable u funkciji
+            else:
+                pass
+        else:
+            pass
+
+
+
 
 class lista_parametara(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tipovi = []
         self.imena = []
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+            c1 = self.children[0]
+
+            if isinstance(c1, deklaracija_parametra):
+
+                c1.izvedi_svojstva()
+
+                self.tipovi = [c1.tip]
+                self.imena = [c1.ime]
+
+            else:
+                pass
+        elif len(self.children) == 3:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, lista_parametara) and isinstance(c2, ZK.ZAREZ) and isinstance(c3, deklaracija_parametra):
+
+                c1.izvedi_svojstva()
+                c3.izvedi_svojstva()
+
+                if c3.ime in c1.imena:
+                    pass
+
+                self.tipovi = c1.tipovi.append(c3.tip)
+                self.imena = c1.imena.append(c3.ime)
+            else:
+                pass
+        else:
+            pass
 
 class deklaracija_parametra(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
