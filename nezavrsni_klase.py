@@ -121,7 +121,7 @@ class postfiks_izraz(GS.Cvor):
                 parametri = c1.parm_tip
                 argumetni = c3.tipovi
 
-                valjano = pomocne.provjeri_valjanost_argumenata(parametri,argumetni)
+                valjano = pomocne.provjeri_valjanost_argumenata(self,argumetni)
 
                 if not valjano:
                     pass

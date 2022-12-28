@@ -4,18 +4,18 @@ class deklaracija:
         self.tip = tip
 
 class varijabla(deklaracija):
-    def __init__(self, identifikator, tip):
+    def __init__(self, identifikator, tip, value = None):
         deklaracija.__init__(self, identifikator, tip)
-        self.value = None
+        self.value = value
 
 class niz(deklaracija):
-    def __init__(self, identifikator, tip, duljina):
+    def __init__(self, identifikator, tip, duljina, values = []):
         deklaracija.__init__(self, identifikator, tip)
         self.duljina = duljina
-        self.values = []
+        self.values = values
 
 class funkcija(deklaracija):
-    def __init__(self, identifikator, tip, parametri):
+    def __init__(self, identifikator, tip, parametri = None):
         deklaracija.__init__(self, identifikator, tip)
         self.parametri = parametri
         
