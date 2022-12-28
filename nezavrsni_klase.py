@@ -1173,29 +1173,243 @@ class deklaracija_parametra(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tip = None
         self.ime = None
-    
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 2:
+            c1 = self.children[0]
+            c2 = self.children[1]
+
+            if isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN):
+
+                c1.izvedi_svojstva()
+
+                if c1.tip == 'void':
+                    pass
+
+                self.tip = c1.tip
+                self.ime = c2.ime
+            else:
+                pass
+
+        elif len(self.children) == 4:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+
+            if isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN) \
+                and isinstance(c3, ZK.D_UGL_ZAGRADA) and isinstance(c4, ZK.L_UGL_ZAGRADA):
+
+                c1.izvedi_svojstva()
+
+                if c1.tip == 'void':
+                    pass
+
+                self.tip = c1.tip
+                self.ime = c2.ime
+            else:
+                pass
+        else:
+            pass
+
+
+
 class lista_deklaracija(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+            c1 = self.children[0]
+            
+            if isinstance(c1, deklaracija):
+
+                c1.izvedi_svojstva()
+            
+            else:
+                pass
+
+        elif len(self.children) == 2:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+
+            if isinstance(c1, lista_deklaracija) and isinstance(c2, deklaracija):
+
+                c1.izvedi_svojstva()
+                c2.izvedi_svojstva()
+
+            else:
+                pass
+
+        else:
+            pass
+
        
 class deklaracija(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
 
+    def izvedi_svojstva(self):
+
+        if len(self.children) == 3:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, ime_tipa) and isinstance(c2, lista_init_deklaratora) and isinstance(c3, ZK.TOCKAZAREZ):
+                
+                c1.izvedi_svojstva()
+                
+                c2.ntip = c1.tip
+                c2.izvedi_svojstva()
+            else:
+                pass
+        else:
+            pass
+
 class lista_init_deklaratora(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
+        self.ntip = None
+    
+    def izvedi_svojstva(self):
+
+        if len(self.children) == 1:
+
+            c1 = self.children[0]
+
+            if isinstance(c1, init_deklarator):
+
+                c1.ntip = self.ntip
+                c1.izvedi_svojstva()
+            else:
+                pass
+
+        elif len(self.children) == 3:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, lista_init_deklaratora) and isinstance (c2, ZK.ZAREZ) and isinstance(c3, init_deklarator):
+
+                c1.ntip = self.ntip
+                c1.izvedi_svojstva()
+
+                c3.ntip = self.ntip
+                c3.izvedi_svojstva()
+            else:
+                pass
+
+        else:
+            pass
+
 
 class init_deklarator(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
-        
+        self.ntip = None
+
+    def izvedi_svojstva(self):
+
+        if len(self.children) == 1:
+
+            c1 = self.children[0]
+
+            if isinstance(c1, izravni_deklarator):
+
+                c1.ntip = self.ntip
+                c1.izvedi_svojstva()
+
+                if c1.tip.startswith('const') or c1.tip.startswith('niz(const'):
+                    pass
+            else:
+                pass
+    
+        elif len(self.children) == 3:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, izravni_deklarator) and isinstance(c2, ZK.OP_PRIDRUZI) and isinstance(c3, inicijalizator):
+
+                c1.ntip = self.ntip
+                c1.izvedi_svojstva()
+
+                c3.izvedi_svojstva()
+
+                #nemam snage za provjerit 3 jbg
+            else:
+                pass
+        else:
+            pass
+
+
 class izravni_deklarator(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.ime = None
         self.tip = None
+        self.ntip = None
         self.broj_elemenata = None
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+
+            c1 = self.children[0]
+
+            if isinstance(c1, ZK.IDN):
+
+                if self.ntip == 'void':
+                    pass
+
+                #provjeri ime bla bla bla
+            else:
+                pass
+            
+        elif len(self.children) == 4:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+            c4 = self.children[3]
+
+            if isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_UGL_ZAGRADA) and \
+                isinstance(c3, ZK.BROJ) and isinstance(c4, ZK.D_UGL_ZAGRADA):
+
+                if self.ntip == 'void':
+                    pass
+
+                uvjet = pomocne.provjeri_lokalno(self, c1.ime)
+
+                if uvjet:
+                    pass
+
+                if c3.vrijednost <= 0 or c3.vrijednost > 1024:
+                    pass
+
+                #zabilježi deklaraciju i tip
+
+            elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
+                isinstance(c3, ZK.KR_VOID) and isinstance(c4, ZK.D_ZAGRADA):
+
+                # postavi tip za funkciju sta vraca void
+                #ovu bas ne kuzim
+
+                'placeholder'
+            
+            elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
+                isinstance(c3, lista_parametara) and isinstance(c3, ZK.D_ZAGRADA):
+
+                c3.izvedi_svojstva()
+
+                ##zapisat funkciju u self i tip
+
+            else:
+                pass
 
 class inicijalizator(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -1203,8 +1417,63 @@ class inicijalizator(GS.Cvor):
         self.tipovi = []
         self.broj_elemenata = None
 
+    def izvedi_svojstva(self):
+
+        if len(self.children) == 1:
+
+            c1 = self.children[0]
+
+            if isinstance(c1, izraz_pridruzivanja):
+
+                if c1.postaje_niz_znakova():
+
+                    self.broj_elemenata = c1.duljina + 1
+                    self.tipovi = ['char' for _ in range(self.broj_elemenata)]
+                else:
+
+                    self.tip = c1.tip
+                    c1.izvedi_svojstva()
+
+            else:
+                pass
+
+        else: 
+            pass
 class lista_izraza_pridruzivanja(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tipovi = []
         self.broj_elemenata = None
+
+    def izvedi_svojstva(self):
+        if len(self.children) == 1:
+
+            c1 = self.children[0]
+
+            if isinstance(c1, izraz_pridruzivanja):
+
+                c1.izvedi_svojstva()
+                self.tipovi = [c1.tip]
+                self.broj_elemenata = 1
+
+            else:
+                pass
+        elif len(self.children) == 3:
+
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, lista_izraza_pridruzivanja) and isinstance(c2, ZK.ZAREZ) and \
+                isinstance(c3, izraz_pridruzivanja):
+
+                c1.izvedi_svojstva()
+                c3.izvedi_svojstva()
+
+                self.broj_elemenata = c1.broj_elemenata + 1
+                self.tipovi = c1.tipovi.append(c3.tip)
+            else:
+                pass
+
+        else:
+            pass
