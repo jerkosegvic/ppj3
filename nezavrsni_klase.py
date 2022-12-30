@@ -15,7 +15,7 @@ class primarni_izraz(GS.Cvor):
             child = self.children[0]
 
             if isinstance(child, ZK.IDN):
-                self.tip = child.tip
+                self.tip = pomocne.tip_idn(self, child.ime)
                 self.lizraz = child.lizraz
                 uvjet = pomocne.provjeri_idn(child)
 
@@ -82,7 +82,7 @@ class postfiks_izraz(GS.Cvor):
             else:
                 print(self.id)
 
-        elif len(self.children == 4): 
+        elif len(self.children) == 4: 
             c1 = self.children[0]
             c2 = self.children[1]
             c3 = self.children[2]
@@ -137,9 +137,11 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1,postfiks_izraz) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, ZK.D_ZAGRADA):
 
                 c1.izvedi_svojstva()
-                self.tip = c1.pov
+                self.tip = c1.tip
 
-                if c1.arg_tip != 'void':
+                uvjet = pomocne.provjeri_valjanost_argumenata(self, None)
+
+                if not uvjet:
                     print(self.id)
             else:
                 print(self.id)
@@ -669,6 +671,10 @@ class izraz_pridruzivanja(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tip = None
         self.lizraz = None
+        self.duljina = 10
+
+    def postaje_niz_znakova(self):
+        return False
 
     def izvedi_svojstva(self):
 
@@ -1014,6 +1020,7 @@ class naredba_skoka(GS.Cvor):
 
                 if not pov:
                     print(self.id)
+                    print(c2.tip)
 
             else:
                 print(self.id)
@@ -1292,9 +1299,7 @@ class lista_init_deklaratora(GS.Cvor):
         self.ntip = None
     
     def izvedi_svojstva(self):
-
         if len(self.children) == 1:
-
             c1 = self.children[0]
 
             if isinstance(c1, init_deklarator):
@@ -1365,6 +1370,8 @@ class init_deklarator(GS.Cvor):
                         tip = tip[6 : len(tip) - 1]
                     
                     if c3.tip != tip:
+                        print(c3.tip)
+                        print(tip)
                         print(self.id)
                 else:
 
@@ -1391,6 +1398,9 @@ class izravni_deklarator(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.ime = None
         self.tip = None
+        self.je_funkcija = None
+        self.parametri = None
+        self.pov = None
         self.ntip = None
         self.broj_elemenata = None
 
@@ -1401,6 +1411,8 @@ class izravni_deklarator(GS.Cvor):
 
             if isinstance(c1, ZK.IDN):
 
+                self.tip = self.ntip
+                
                 if self.ntip == 'void':
                     print(self.id)
 
@@ -1439,7 +1451,7 @@ class izravni_deklarator(GS.Cvor):
                 pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
 
 
-                #zabilježi deklaraciju i tip
+                #zabilježi deklaraciju i tip!!!!!!!!!!!!!!!!!!!!
 
             elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
                 isinstance(c3, ZK.KR_VOID) and isinstance(c4, ZK.D_ZAGRADA):
@@ -1450,8 +1462,12 @@ class izravni_deklarator(GS.Cvor):
                     print(self.id)
 
                 if uvjet == None:
-                    pomocne.dodaj_lokalnu_funkciju_void(self, c1.ime, self.ntip)
+                    pomocne.dodaj_lokalnu_funkciju_void(self, c1.ime, self.ntip, False)
 
+                self.je_funkcija = True
+                self.pov = self.ntip
+                self.parametri = 'void'
+                self.tip = 'funkcija'
                 # postavi tip za funkciju sta vraca void
                 #ovu bas ne kuzim
 
@@ -1474,6 +1490,10 @@ class izravni_deklarator(GS.Cvor):
                 else:
                     print(self.id)
 
+                self.je_funkcija = True
+                self.pov = self.ntip
+                self.parametri = c3.tipovi
+                self.tip = 'funkcija'
             else:
                 print(self.id)
 
@@ -1481,6 +1501,7 @@ class inicijalizator(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tipovi = []
+        self.tip = None
         self.broj_elemenata = None
 
     def izvedi_svojstva(self):
@@ -1497,8 +1518,10 @@ class inicijalizator(GS.Cvor):
                     self.tipovi = ['char' for _ in range(self.broj_elemenata)]
                 else:
 
-                    self.tip = c1.tip
                     c1.izvedi_svojstva()
+                    print(c1.tip)
+                    self.tip = c1.tip
+
 
             else:
                 print(self.id)
