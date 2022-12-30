@@ -746,6 +746,7 @@ class slozena_naredba(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
 
     def izvedi_svojstva(self):
+        pomocne.updateaj_blok(self)
         if len(self.children) == 3:
 
             c1 = self.children[0]

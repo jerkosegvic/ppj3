@@ -202,3 +202,8 @@ def tip_idn(cvor, ime):
             return None
         else:
             return tip_idn(blok_cvor.parent, ime)
+
+def updateaj_blok(cvor):
+    id_bloka = GS.Cvor.tablice[cvor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    blok_cvor.update_tablice()
