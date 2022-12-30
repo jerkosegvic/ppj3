@@ -25,7 +25,7 @@ class Cvor:
         self.children.append(child)
     
     def __str__(self):
-        return self.dubina*" " + self.value
+        return self.dubina*" " + self.value + ' id: ' + str(self.id)
 
     def print_tree(self):
         print(self)

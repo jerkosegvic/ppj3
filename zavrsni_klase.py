@@ -5,6 +5,7 @@ class IDN(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.ime = vr
         self.tip = None
+        self.lizraz = 1 #ovo još rpoc!
     
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + self.ime
@@ -62,7 +63,7 @@ class NIZ_ZNAKOVA(GS.Cvor):
 
                 if niz[i+1] not in definirani:
                     pass
-                
+
         if niz[-1] != '\x00':
             pass
 
