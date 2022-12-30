@@ -9,7 +9,7 @@ class IDN(GS.Cvor):
     
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + self.ime
-
+    
 class BROJ(GS.Cvor):
     najmanja_vrijednost = - (2 ** 31) 
     najveca_vrijednost = 2 ** 31 - 1

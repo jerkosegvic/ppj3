@@ -3,6 +3,9 @@ class deklaracija:
         self.identifikator = identifikator
         self.tip = tip
 
+    def __str__(self):
+        return self.identifikator + "  tip: " + str(self.tip)
+
 class varijabla(deklaracija):
     def __init__(self, identifikator, tip, value = None):
         deklaracija.__init__(self, identifikator, tip)

@@ -32,7 +32,9 @@ class Cvor:
             return self.parent.go_up(n-1)
     
     def __str__(self):
-        return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID " + str(self.id)
+        if self.parent == None:
+            return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID " + str(self.id) + "parent : None"    
+        return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID " + str(self.id) + "parent :" + str(self.parent.tip)
     
     def print_tree(self):
         print(self)

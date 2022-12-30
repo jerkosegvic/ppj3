@@ -396,7 +396,7 @@ class aditivni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 c3.izvedi_svojstva()
 
-                if c1.tip != 'int' and c2.tip != 'int':
+                if c1.tip != 'int' and c3.tip != 'int':
                     print(self.id)
                 
                 self.tip = 'int'
@@ -433,7 +433,7 @@ class odnosni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 c3.izvedi_svojstva()
 
-                if c1.tip != 'int' and c2.tip != 'int':
+                if c1.tip != 'int' and c3.tip != 'int':
                     print(self.id)
                 
                 self.tip = 'int'
@@ -697,6 +697,9 @@ class izraz_pridruzivanja(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != c3.tip:
+                    print(self.id)
+
+                if c1.lizraz == 0:
                     print(self.id)
                 
                 self.tip = c1.tip
@@ -1415,7 +1418,7 @@ class izravni_deklarator(GS.Cvor):
                     print(self.id)
 
                 uvjet = pomocne.provjeri_identifikator_lokalno(self, c1.ime)
-
+                c1.tip = self.ntip
                 if uvjet:
                     print(self.id)
 

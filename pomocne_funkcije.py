@@ -82,6 +82,7 @@ def provjeri_cast():
 def u_petlji(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    print(blok_cvor.tip)
     if blok_cvor.tip == "for" or blok_cvor.tip == "while":
         return True
     else:
@@ -186,6 +187,7 @@ def tip_idn(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     rrv = None
+
     if ime in blok_cvor.tablica_lokalnih_varijabli.keys():
         rrv = blok_cvor.tablica_lokalnih_varijabli[ime]
         
