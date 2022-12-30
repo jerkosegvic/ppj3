@@ -7,8 +7,8 @@ import deklaracije as D
 def provjeri_idn(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    if cvor.ime in blok_cvor.tablica_lokalnih.keys() or \
-       cvor.ime in blok_cvor.nasljedena_tablica.keys():
+    if cvor.ime in blok_cvor.tablica_lokalnih_varijabli.keys() or \
+       cvor.ime in blok_cvor.nasljedena_tablica_varijabli.keys():
         return True
     return False
 
