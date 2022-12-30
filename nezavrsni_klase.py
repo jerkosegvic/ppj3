@@ -66,7 +66,7 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1, primarni_izraz):
 
                 if isinstance(c1.children[0], ZK.IDN):
-                    return c1.children[0].ime
+                    return c1.children[0]
         
         return None
 
