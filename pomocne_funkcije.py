@@ -7,8 +7,8 @@ import deklaracije as D
 def provjeri_idn(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    if cvor.ime in blok_cvor.tablica_lokalnih.keys() or \
-       cvor.ime in blok_cvor.nasljedena_tablica.keys():
+    if cvor.ime in blok_cvor.tablica_lokalnih_varijabli.keys() or \
+       cvor.ime in blok_cvor.nasljedena_tablica_varijabli.keys():
         return True
     return False
 
@@ -18,8 +18,8 @@ def provjeri_valjanost_argumenata(cvor, argumenti):
     if isinstance(cvor, NK.postfiks_izraz):
         idn = cvor.dohvati_idn()
         if idn != None:
-            if idn.ime in blok_cvor.tablica_lokalnih.keys():
-                dek = blok_cvor.tablica_lokalnih[idn.ime]
+            if idn.ime in blok_cvor.tablica_lokalnih_funkcija.keys():
+                dek = blok_cvor.tablica_lokalnih_funkcija[idn.ime]
                 if isinstance(dek, D.funkcija):
                     if len(dek.parametri) == len(argumenti):
                         for i in range(len(dek.argumenti)):
@@ -29,11 +29,11 @@ def provjeri_valjanost_argumenata(cvor, argumenti):
                     else:
                         return False
 
-            elif idn.ime in blok_cvor.nasljedena_tablica.keys():
-                dek = blok_cvor.nasljedena_tablica[idn.ime]
+            elif idn.ime in blok_cvor.nasljedena_tablica_funkcija.keys():
+                dek = blok_cvor.nasljedena_tablica_funkcija[idn.ime]
                 if isinstance(dek, D.funkcija):
                     if len(dek.parametri) == len(argumenti):
-                        for i in range(len(dek.argumenti)):
+                        for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
                                 return False
                         return True
@@ -83,8 +83,8 @@ def tip_funkcije(cvor, trazeni_tip):
 def porvjeri_egzistenciju(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    if ime in blok_cvor.tablica_lokalnih.keys() or \
-       ime in blok_cvor.nasljedena_tablica.keys():
+    if ime in blok_cvor.tablica_lokalnih_funkcija.keys() or \
+       ime in blok_cvor.nasljedena_tablica_funkcija.keys():
         return True
     else:
         if blok_cvor.parent == None:
@@ -112,7 +112,7 @@ def dodaj_argumente(cvor, argumenti):
 def provjeri_identifikator_lokalno(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    if ime in blok_cvor.tablica_lokalnih.keys():
+    if ime in blok_cvor.tablica_lokalnih_varijabli.keys():
         return True
     else:
         return False
@@ -120,10 +120,10 @@ def provjeri_identifikator_lokalno(cvor, ime):
 def provjeri_deklaraciju_i_tipove(cvor, ime, tip, parametri = None):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    if ime not in blok_cvor.tablica_lokalnih.keys():
+    if ime not in blok_cvor.tablica_lokalnih_funkcija.keys():
         return None
     
-    dek = blok_cvor.tablica_lokalnih[ime]
+    dek = blok_cvor.tablica_lokalnih_funkcija[ime]
     if isinstance(dek, D.funkcija):
         if dek.tip == tip:
             if parametri == None and dek.parametri == None:
