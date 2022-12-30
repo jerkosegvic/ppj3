@@ -102,7 +102,7 @@ class postfiks_izraz(GS.Cvor):
                     else:
                         self.lizraz = 1
 
-                    c3.izvedi_svjostva()
+                    c3.izvedi_svojstva()
 
                     if c3.tip != 'int':
                         print(self.id)
@@ -1017,11 +1017,10 @@ class naredba_skoka(GS.Cvor):
             if isinstance(c1, ZK.KR_RETURN) and isinstance(c2, izraz) and isinstance(c3, ZK.TOCKAZAREZ):
                 c2.izvedi_svojstva()
                 pov = pomocne.tip_funkcije(self, c2.tip) 
-                print(c2.children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0])
+                #print(c2.children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].tip)
 
                 if not pov:
                     print(self.id)
-                    print(c2.tip)
 
             else:
                 print(self.id)

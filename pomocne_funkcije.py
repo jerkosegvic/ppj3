@@ -187,22 +187,22 @@ def tip_idn(cvor, ime):
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     rrv = None
     if ime in blok_cvor.tablica_lokalnih_varijabli.keys():
-        rrv = blok_cvor.tablica_lokalnih_varijabli[ime].tip
+        rrv = blok_cvor.tablica_lokalnih_varijabli[ime]
         
     elif ime in blok_cvor.tablica_lokalnih_funkcija.keys():
-        rrv = blok_cvor.tablica_lokalnih_funkcija[ime].tip
+        rrv = blok_cvor.tablica_lokalnih_funkcija[ime]
 
     elif ime in blok_cvor.nasljedena_tablica_varijabli.keys():
-        rrv = blok_cvor.nasljedena_tablica_varijabli[ime].tip
+        rrv = blok_cvor.nasljedena_tablica_varijabli[ime]
 
     elif ime in blok_cvor.nasljedena_tablica_funkcija.keys():
-        rrv = blok_cvor.nasljedena_tablica_funkcija[ime].tip
+        rrv = blok_cvor.nasljedena_tablica_funkcija[ime]
 
     if rrv != None:
         if isinstance(rrv, D.niz):
             return "niz(" + rrv.tip + ")"
         else:
-            return rrv
+            return rrv.tip
     if blok_cvor.parent == None:
         return None
     else:
