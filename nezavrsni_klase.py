@@ -1026,10 +1026,10 @@ class prijevodna_jedinica(GS.Cvor):
     def izvedi_svojstva(self):
         
         if len(self.children) == 1:
-            c1 = self.childrem[0] 
+            c1 = self.children[0] 
 
             if isinstance(c1, vanjska_deklaracija):
-                vanjska_deklaracija.izvedi_svojstva()
+                c1.izvedi_svojstva()
             else:
                 pass
 
@@ -1092,7 +1092,7 @@ class definicija_funkcije(GS.Cvor):
                 if c1.tip.startswith('const'):
                     pass
 
-                uvjet = pomocne.provjeri_egzistenciju_funckije(self, c2.ime)
+                uvjet = pomocne.provjeri_egzistenciju_funkcije(self, c2.ime)
 
                 if uvjet:
                     pass
