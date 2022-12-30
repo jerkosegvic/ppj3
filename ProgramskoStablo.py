@@ -59,14 +59,15 @@ class Cvor:
             self.tablica_lokalnih[ime] = dek.niz(ime, tip, duljina, values)
             return True
 
-    def dodaj_lokalnu_funkciju(self, ime, tip):
+    def dodaj_lokalnu_funkciju_void(self, ime, tip, definirana):
         if ime in self.tablica_lokalnih.keys():
             return False
         else:
-            self.tablica_lokalnih[ime] = dek.funkcija(ime, tip)
+            self.tablica_lokalnih[ime] = dek.funkcija(ime, tip, definirana)
             return True
 
-    def dodaj_lokalnu_funkciju(self, ime, tip, parametri_tuple):
+    
+    def dodaj_lokalnu_funkciju(self, ime, tip, definirana, parametri_tuple):
         # parametri_tuple je lista od tupleova (ime, tip)
         if ime in self.tablica_lokalnih.keys():
             return False
@@ -75,5 +76,5 @@ class Cvor:
             for parametar in parametri_tuple:
                 np = dek.varijabla(parametar[0], parametar[1])
                 parametri.append(np)
-            self.tablica_lokalnih[ime] = dek.funkcija(ime, tip, parametri)
+            self.tablica_lokalnih[ime] = dek.funkcija(ime, tip, definirana, parametri)
             return True

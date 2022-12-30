@@ -1,6 +1,8 @@
 #include<stdio.h>
 
-int x = 10;
+int x(void){
+    return 10;
+}
 
 int main()
 {

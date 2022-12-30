@@ -15,7 +15,8 @@ class niz(deklaracija):
         self.values = values
 
 class funkcija(deklaracija):
-    def __init__(self, identifikator, tip, parametri = None):
+    def __init__(self, identifikator, tip, definirana, parametri = None):
         deklaracija.__init__(self, identifikator, tip)
         self.parametri = parametri
+        self.definirana = definirana
         
