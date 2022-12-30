@@ -90,7 +90,6 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.L_UGL_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.D_UGL_ZAGRADA):
 
                 #ovo je indeksiranje, oblik tipa a[2]
-
                 c1.izvedi_svojstva()
 
                 if c1.tip.startswith('niz'): #trebamo se jos dogovorit kako tip odredit, ugl ovo mora provjeravat je li c1 dopušteni niz
@@ -697,7 +696,7 @@ class izraz_pridruzivanja(GS.Cvor):
                 c1.izvedi_svojstva()
                 c3.izvedi_svojstva()
 
-                if c1.tip != c2.tip:
+                if c1.tip != c3.tip:
                     print(self.id)
                 
                 self.tip = c1.tip
@@ -1018,6 +1017,7 @@ class naredba_skoka(GS.Cvor):
             if isinstance(c1, ZK.KR_RETURN) and isinstance(c2, izraz) and isinstance(c3, ZK.TOCKAZAREZ):
                 c2.izvedi_svojstva()
                 pov = pomocne.tip_funkcije(self, c2.tip) 
+                print(c2.children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0])
 
                 if not pov:
                     print(self.id)
@@ -1449,7 +1449,7 @@ class izravni_deklarator(GS.Cvor):
                 if int(c3.vrijednost) <= 0 or int(c3.vrijednost) > 1024:
                     print(self.id)
 
-                pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
+                pomocne.dodaj_lokalni_niz(self, c1.ime, self.ntip, int(c3.vrijednost))
 
 
                 #zabilježi deklaraciju i tip!!!!!!!!!!!!!!!!!!!!
