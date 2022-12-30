@@ -17,10 +17,10 @@ class primarni_izraz(GS.Cvor):
             if isinstance(child, ZK.IDN):
                 self.tip = child.tip
                 self.lizraz = child.lizraz
-                uvjet = pomocne.provjeri_idn(c1)
+                uvjet = pomocne.provjeri_idn(child)
 
                 if not uvjet:
-                    pass
+                    print(self.id)
 
             elif isinstance(child, ZK.BROJ):
                 self.tip = 'int'
@@ -35,7 +35,7 @@ class primarni_izraz(GS.Cvor):
                 self.lizraz = 0
             
             else:
-                pass        
+                print(self.id)        
 
         elif len(self.children) == 3:
             c1 = self.children[0]        
@@ -48,10 +48,10 @@ class primarni_izraz(GS.Cvor):
                 self.tip = c2.tip
                 self.lizraz = c2.lizraz
             else:
-                pass 
+                print(self.id) 
         
         else:
-            pass
+            print(self.id)
 
         
 class postfiks_izraz(GS.Cvor):
@@ -80,7 +80,7 @@ class postfiks_izraz(GS.Cvor):
                 self.tip = child.tip
                 self.lizraz = child.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children == 4): 
             c1 = self.children[0]
@@ -107,7 +107,7 @@ class postfiks_izraz(GS.Cvor):
                     c3.izvedi_svjostva()
 
                     if c3.tip != 'int':
-                        pass
+                        print(self.id)
             
             elif isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, lista_argumenata) and isinstance(c4, ZK.D_ZAGRADA):
                 #ovo je za poziv funckije s argumentima!
@@ -121,12 +121,12 @@ class postfiks_izraz(GS.Cvor):
                 valjano = pomocne.provjeri_valjanost_argumenata(self,argumetni)
 
                 if not valjano:
-                    pass
+                    print(self.id)
 
                 self.tip = c1.pov
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         
         elif len(self.children) == 3:
             #poziv f-je bez argumenata
@@ -140,9 +140,9 @@ class postfiks_izraz(GS.Cvor):
                 self.tip = c1.pov
 
                 if c1.arg_tip != 'void':
-                    pass
+                    print(self.id)
             else:
-                pass
+                print(self.id)
         
         elif len(self.children) == 2:
             c1 = self.children[0]
@@ -152,13 +152,13 @@ class postfiks_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
 
                 if c1.lizraz == 0 or c1.tip != 'int':
-                    pass
+                    print(self.id)
 
                 self.tip = c1.tip
                 self.lizraz = 0
         
         else:
-            pass
+            print(self.id)
 
 
                     
@@ -177,7 +177,7 @@ class lista_argumenata(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tipovi.append(c1.tip)
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -192,9 +192,9 @@ class lista_argumenata(GS.Cvor):
                 self.tipovi = c1.tipovi.append(c3.tip)
 
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 class unarni_izraz(GS.Cvor):
@@ -211,7 +211,7 @@ class unarni_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
         
         elif len(self.children) == 2:
             c1 = self.children[0]
@@ -221,7 +221,7 @@ class unarni_izraz(GS.Cvor):
                 c2.izvedi_svojstva()
 
                 if c2.lizraz == 0 or c2.tip != 'int':
-                    pass #moramo se dogovorit oko errora, najbolje da tu odma izhendlamo kraj
+                    print(self.id) #moramo se dogovorit oko errora, najbolje da tu odma izhendlamo kraj
 
                 self.tip = 'int' #moze i c2.tip
                 self.lizraz = 0
@@ -230,14 +230,14 @@ class unarni_izraz(GS.Cvor):
                 c2.izvedi_svojstva()
 
                 if c2.tip != 'int':
-                    pass
+                    print(self.id)
 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 class unarni_operator(GS.Cvor):
@@ -259,7 +259,7 @@ class cast_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 4:
             c1 = self.children[0]
@@ -276,9 +276,9 @@ class cast_izraz(GS.Cvor):
                 self.tip = c2.tip
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
             
 
 class ime_tipa(GS.Cvor):
@@ -293,7 +293,7 @@ class ime_tipa(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
             else:
-                pass
+                print(self.id)
         elif len(self.children) == 2:
             c1 = self.children[0]
             c2 = self.children[1]
@@ -302,13 +302,13 @@ class ime_tipa(GS.Cvor):
                 c2.izvedi_svojstva()
 
                 if c2.tip == 'void':
-                    pass
+                    print(self.id)
 
                 self.tip = c2.tip
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class specifikator_tipa(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -326,9 +326,9 @@ class specifikator_tipa(GS.Cvor):
             elif isinstance(c1, ZK.KR_INT):
                 self.tip = 'int'
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 class multiplikativni_izraz(GS.Cvor):
@@ -347,7 +347,7 @@ class multiplikativni_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -359,14 +359,14 @@ class multiplikativni_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class aditivni_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -384,7 +384,7 @@ class aditivni_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -396,14 +396,14 @@ class aditivni_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class odnosni_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -421,7 +421,7 @@ class odnosni_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -433,14 +433,14 @@ class odnosni_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class jednakosni_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -458,7 +458,7 @@ class jednakosni_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -470,14 +470,14 @@ class jednakosni_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class bin_i_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -495,7 +495,7 @@ class bin_i_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -507,14 +507,14 @@ class bin_i_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class bin_xili_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -532,7 +532,7 @@ class bin_xili_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -544,14 +544,14 @@ class bin_xili_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class bin_ili_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -569,7 +569,7 @@ class bin_ili_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -581,14 +581,14 @@ class bin_ili_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass                                   
+            print(self.id)                                   
 
 class log_i_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -606,7 +606,7 @@ class log_i_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -618,14 +618,14 @@ class log_i_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class log_ili_izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -643,7 +643,7 @@ class log_ili_izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -655,14 +655,14 @@ class log_ili_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c2.tip != 'int':
-                    pass
+                    print(self.id)
                 
                 self.tip = 'int'
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class izraz_pridruzivanja(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -680,7 +680,7 @@ class izraz_pridruzivanja(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -692,14 +692,14 @@ class izraz_pridruzivanja(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != c2.tip:
-                    pass
+                    print(self.id)
                 
                 self.tip = c1.tip
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class izraz(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -717,7 +717,7 @@ class izraz(GS.Cvor):
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
             c1 = self.children[0]
@@ -731,9 +731,9 @@ class izraz(GS.Cvor):
                 self.tip = c3.tip
                 self.lizraz = 0
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 #NAREDBE
 class slozena_naredba(GS.Cvor):
@@ -751,7 +751,7 @@ class slozena_naredba(GS.Cvor):
 
                 c2.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 4:
             c1 = self.children[0]
@@ -765,10 +765,10 @@ class slozena_naredba(GS.Cvor):
                 c3.izvedi_svojstva()
 
             else:
-                pass
+                print(self.id)
     
         else:
-            pass
+            print(self.id)
 
 
 class lista_naredbi(GS.Cvor):
@@ -782,7 +782,7 @@ class lista_naredbi(GS.Cvor):
             if isinstance(c1, naredba):
                 c1.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
         elif len(self.children) == 2:
             c1 = self.children[0]
             c2 = self.children[1]
@@ -791,9 +791,9 @@ class lista_naredbi(GS.Cvor):
                 c1.izvedi_svojstva()
                 c2.izvedi_svojstva()
 
-            else: pass
+            else: print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 class naredba(GS.Cvor):
@@ -819,9 +819,9 @@ class naredba(GS.Cvor):
                 c1.izvedi_svojstva()
 
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class izraz_naredba(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -834,7 +834,7 @@ class izraz_naredba(GS.Cvor):
             if isinstance(c1, ZK.TOCKAZAREZ):
                 self.tip = 'int'
             else:
-                pass
+                print(self.id)
         elif len(self.children) == 2:
             c1 = self.children[0]
             c2 = self.children[1]
@@ -843,9 +843,9 @@ class izraz_naredba(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class naredba_grananja(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -865,12 +865,12 @@ class naredba_grananja(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c3.tip != 'int':
-                    pass
+                    print(self.id)
 
                 c5.izvedi_svojstva()
             
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 7:
 
@@ -888,16 +888,16 @@ class naredba_grananja(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c3.tip != 'int':
-                    pass
+                    print(self.id)
 
                 c5.izvedi_svojstva()
                 c7.izvedi_svojstva()
 
             else:
-                pass
+                print(self.id)
 
         else:
-            pass
+            print(self.id)
             
 
 
@@ -922,12 +922,12 @@ class naredba_petlje(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c3.tip != 'int':
-                    pass
+                    print(self.id)
 
                 c5.izvedi_svojstva()
             
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 6:
             c1 = self.children[0]
@@ -944,11 +944,11 @@ class naredba_petlje(GS.Cvor):
                c4.izvedi_svojstva()
 
                if c4.tip != 'int':
-                    pass
+                    print(self.id)
 
                c6.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 7:
             c1 = self.children[0]
@@ -966,14 +966,14 @@ class naredba_petlje(GS.Cvor):
                c4.izvedi_svojstva()
 
                if c4.tip != 'int':
-                    pass
+                    print(self.id)
                
                c5.izvedi_svojstva()
                c6.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 
@@ -991,17 +991,17 @@ class naredba_skoka(GS.Cvor):
                 uvjet = pomocne.u_petlji(self)
 
                 if not uvjet:
-                    pass
+                    print(self.id)
 
             elif isinstance(c1, ZK.KR_RETURN) and isinstance(c2, ZK.TOCKAZAREZ):
 
                 uvjet = pomocne.u_void_funckiji(self)
 
                 if not uvjet:
-                    pass
+                    print(self.id)
 
             else:
-                pass
+                print(self.id)
         elif len(self.children) == 3:
 
             c1 = self.children[0]
@@ -1010,15 +1010,15 @@ class naredba_skoka(GS.Cvor):
 
             if isinstance(c1, ZK.KR_RETURN) and isinstance(c2, izraz) and isinstance(c3, ZK.TOCKAZAREZ):
                 c2.izvedi_svojstva()
-                pov = pomocne.tip_funckije(self, c2.tip)
+                pov = pomocne.tip_funkcije(self, c2.tip) 
 
                 if not pov:
-                    pass
+                    print(self.id)
 
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class prijevodna_jedinica(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -1032,7 +1032,7 @@ class prijevodna_jedinica(GS.Cvor):
             if isinstance(c1, vanjska_deklaracija):
                 c1.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 2:
             c1 = self.children[0]
@@ -1043,9 +1043,9 @@ class prijevodna_jedinica(GS.Cvor):
                 c1.izvedi_svojstva()
                 c2.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class vanjska_deklaracija(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -1062,9 +1062,9 @@ class vanjska_deklaracija(GS.Cvor):
             elif isinstance(c1, definicija_funkcije):
                 c1.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 #DEKLARACIJE I DEFINICIJE
 class definicija_funkcije(GS.Cvor):
@@ -1091,20 +1091,21 @@ class definicija_funkcije(GS.Cvor):
                 c1.izvedi_svojstva()
 
                 if c1.tip.startswith('const'):
-                    pass
+                    print(self.id)
 
-                uvjet = pomocne.provjeri_egzistenciju_funkcije(self, c2.ime)
-
+                uvjet = pomocne.porvjeri_egzistenciju(self, c2.ime)
+                uvjet2 = True
                 if uvjet:
-                    pass
+                    print(self.id)
 
                 #4. provjerit postoji li deklaracije funkcije
+                
+                    uvjet2 = pomocne.provjeri_valjanost_argumenata(self, ['void']) and \
+                        pomocne.tip_funkcije(self, c1.tip)
 
-                uvjet = pomocne.provjeri_valjanost_argumenata(self, ['void']) and \
-                    pomocne.tip_funkcije(self, c1.tip)
-
-                if not uvjet:
-                    pass
+                if not uvjet2:
+                    print(self.id)
+                    print("tu je puklo")
 
                 #zabiljezit deklaraciju
                 pomocne.dodaj_lokalnu_funkciju_void(self, c2.ime, c1.tip, True)
@@ -1117,12 +1118,12 @@ class definicija_funkcije(GS.Cvor):
                 c1.izvedi_svojstva()
 
                 if c1.tip.startswith('const'):
-                    pass
+                    print(self.id)
 
                 uvjet = pomocne.provjeri_egzistenciju_funckije(self, c2.ime)
 
                 if uvjet:
-                    pass
+                    print(self.id)
 
                 c4.izvedi_svojstva()
 
@@ -1138,9 +1139,9 @@ class definicija_funkcije(GS.Cvor):
 
 
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 
@@ -1163,7 +1164,7 @@ class lista_parametara(GS.Cvor):
                 self.imena = [c1.ime]
 
             else:
-                pass
+                print(self.id)
         elif len(self.children) == 3:
             c1 = self.children[0]
             c2 = self.children[1]
@@ -1175,14 +1176,14 @@ class lista_parametara(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c3.ime in c1.imena:
-                    pass
+                    print(self.id)
 
                 self.tipovi = c1.tipovi.append(c3.tip)
                 self.imena = c1.imena.append(c3.ime)
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class deklaracija_parametra(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -1200,12 +1201,12 @@ class deklaracija_parametra(GS.Cvor):
                 c1.izvedi_svojstva()
 
                 if c1.tip == 'void':
-                    pass
+                    print(self.id)
 
                 self.tip = c1.tip
                 self.ime = c2.ime
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 4:
             c1 = self.children[0]
@@ -1219,14 +1220,14 @@ class deklaracija_parametra(GS.Cvor):
                 c1.izvedi_svojstva()
 
                 if c1.tip == 'void':
-                    pass
+                    print(self.id)
 
                 self.tip = c1.tip
                 self.ime = c2.ime
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 
@@ -1243,7 +1244,7 @@ class lista_deklaracija(GS.Cvor):
                 c1.izvedi_svojstva()
             
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 2:
 
@@ -1256,10 +1257,10 @@ class lista_deklaracija(GS.Cvor):
                 c2.izvedi_svojstva()
 
             else:
-                pass
+                print(self.id)
 
         else:
-            pass
+            print(self.id)
 
        
 class deklaracija(GS.Cvor):
@@ -1281,9 +1282,9 @@ class deklaracija(GS.Cvor):
                 c2.ntip = c1.tip
                 c2.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 class lista_init_deklaratora(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -1301,7 +1302,7 @@ class lista_init_deklaratora(GS.Cvor):
                 c1.ntip = self.ntip
                 c1.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
 
         elif len(self.children) == 3:
 
@@ -1317,10 +1318,10 @@ class lista_init_deklaratora(GS.Cvor):
                 c3.ntip = self.ntip
                 c3.izvedi_svojstva()
             else:
-                pass
+                print(self.id)
 
         else:
-            pass
+            print(self.id)
 
 
 class init_deklarator(GS.Cvor):
@@ -1340,9 +1341,9 @@ class init_deklarator(GS.Cvor):
                 c1.izvedi_svojstva()
 
                 if c1.tip.startswith('const') or c1.tip.startswith('niz(const'):
-                    pass
+                    print(self.id)
             else:
-                pass
+                print(self.id)
     
         elif len(self.children) == 3:
 
@@ -1364,7 +1365,7 @@ class init_deklarator(GS.Cvor):
                         tip = tip[6 : len(tip) - 1]
                     
                     if c3.tip != tip:
-                        pass
+                        print(self.id)
                 else:
 
                     tip = tip[4 : len(tip) - 1]
@@ -1373,16 +1374,16 @@ class init_deklarator(GS.Cvor):
                         tip = tip[6 : len(tip) - 1]
 
                     if c3.broj_elemenata > c1.broj_elemenata:
-                        pass
+                        print(self.id)
 
                     for t in c3.tipovi:
                         if t != tip:
-                            pass
+                            print(self.id)
 
             else:
-                pass
+                print(self.id)
         else:
-            pass
+            print(self.id)
 
 
 class izravni_deklarator(GS.Cvor):
@@ -1401,18 +1402,18 @@ class izravni_deklarator(GS.Cvor):
             if isinstance(c1, ZK.IDN):
 
                 if self.ntip == 'void':
-                    pass
+                    print(self.id)
 
                 uvjet = pomocne.provjeri_identifikator_lokalno(self, c1.ime)
 
                 if uvjet:
-                    pass
+                    print(self.id)
 
                 pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
 
                 #provjeri ime bla bla bla
             else:
-                pass
+                print(self.id)
             
         elif len(self.children) == 4:
 
@@ -1425,15 +1426,15 @@ class izravni_deklarator(GS.Cvor):
                 isinstance(c3, ZK.BROJ) and isinstance(c4, ZK.D_UGL_ZAGRADA):
 
                 if self.ntip == 'void':
-                    pass
+                    print(self.id)
 
                 uvjet = pomocne.provjeri_lokalno(self, c1.ime)
 
                 if uvjet:
-                    pass
+                    print(self.id)
 
                 if c3.vrijednost <= 0 or c3.vrijednost > 1024:
-                    pass
+                    print(self.id)
 
                 pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
 
@@ -1446,7 +1447,7 @@ class izravni_deklarator(GS.Cvor):
                 uvjet = pomocne.provjeri_deklaraciju_i_tipove(self, c1.ime, self.ntip)
 
                 if uvjet == False:
-                    pass
+                    print(self.id)
 
                 if uvjet == None:
                     pomocne.dodaj_lokalnu_funkciju_void(self, c1.ime, self.ntip)
@@ -1464,17 +1465,17 @@ class izravni_deklarator(GS.Cvor):
                 uvjet = pomocne.provjeri_deklaraciju_i_tipove(self, c1.ime, self.ntip, c3.tipovi)
 
                 if uvjet == False:
-                    pass
+                    print(self.id)
 
                 if uvjet == None:
 
                     pomocne.dodaj_lokalnu_funkciju(self, c1.ime, self.ntip, False, c3.tipovi)
 
                 else:
-                    pass
+                    print(self.id)
 
             else:
-                pass
+                print(self.id)
 
 class inicijalizator(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
@@ -1500,10 +1501,10 @@ class inicijalizator(GS.Cvor):
                     c1.izvedi_svojstva()
 
             else:
-                pass
+                print(self.id)
 
         else: 
-            pass
+            print(self.id)
 class lista_izraza_pridruzivanja(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
@@ -1522,7 +1523,7 @@ class lista_izraza_pridruzivanja(GS.Cvor):
                 self.broj_elemenata = 1
 
             else:
-                pass
+                print(self.id)
         elif len(self.children) == 3:
 
             c1 = self.children[0]
@@ -1538,7 +1539,7 @@ class lista_izraza_pridruzivanja(GS.Cvor):
                 self.broj_elemenata = c1.broj_elemenata + 1
                 self.tipovi = c1.tipovi.append(c3.tip)
             else:
-                pass
+                print(self.id)
 
         else:
-            pass
+            print(self.id)
