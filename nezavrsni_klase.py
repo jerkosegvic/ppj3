@@ -1,6 +1,7 @@
 import GenerativnoStablo as GS
 import zavrsni_klase as ZK
 import pomocne_funkcije as pomocne
+import ProgramskoStablo as PS
 
 #IZRAZI
 class primarni_izraz(GS.Cvor):
@@ -1026,10 +1027,10 @@ class prijevodna_jedinica(GS.Cvor):
     def izvedi_svojstva(self):
         
         if len(self.children) == 1:
-            c1 = self.childrem[0] 
+            c1 = self.children[0] 
 
             if isinstance(c1, vanjska_deklaracija):
-                vanjska_deklaracija.izvedi_svojstva()
+                c1.izvedi_svojstva()
             else:
                 pass
 
@@ -1092,15 +1093,22 @@ class definicija_funkcije(GS.Cvor):
                 if c1.tip.startswith('const'):
                     pass
 
-                uvjet = pomocne.provjeri_egzistenciju_funckije(self, c2.ime)
+                uvjet = pomocne.provjeri_egzistenciju_funkcije(self, c2.ime)
 
                 if uvjet:
                     pass
 
                 #4. provjerit postoji li deklaracije funkcije
 
-                #zabiljezit deklaraciju
+                uvjet = pomocne.provjeri_valjanost_argumenata(self, ['void']) and \
+                    pomocne.tip_funkcije(self, c1.tip)
 
+                if not uvjet:
+                    pass
+
+                #zabiljezit deklaraciju
+                pomocne.dodaj_lokalnu_funkciju_void(self, c2.ime, c1.tip, True)
+                
                 c6.izvedi_svojstva()
 
             elif isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN) and isinstance(c3, ZK.L_ZAGRADA) \
@@ -1118,9 +1126,17 @@ class definicija_funkcije(GS.Cvor):
 
                 c4.izvedi_svojstva()
 
-                # provjeri postoji li deklaracija
-                # zabilježi funkciju
-                # dodat varijable u funkciji
+                uvjet = pomocne.provjeri_valjanost_argumenata(self, c4.tipovi) and \
+                    pomocne.tip_funkcije(self, c1.tip)
+
+                tipovi_tuplovi = list(zip(c4.tipovi, c4.imena))
+                pomocne.dodaj_lokalnu_funkciju(self, c2.ime, c1.tip, True, tipovi_tuplovi)
+
+                pomocne.dodaj_argumente(c6, tipovi_tuplovi)
+
+                c6.izvedi_svojstva()
+
+
             else:
                 pass
         else:
@@ -1342,6 +1358,27 @@ class init_deklarator(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 #nemam snage za provjerit 3 jbg
+                tip = c1.tip
+                if not tip.startswith('niz'):
+                    if tip.startswith('const'):
+                        tip = tip[6 : len(tip) - 1]
+                    
+                    if c3.tip != tip:
+                        pass
+                else:
+
+                    tip = tip[4 : len(tip) - 1]
+
+                    if tip.startswith('const'):
+                        tip = tip[6 : len(tip) - 1]
+
+                    if c3.broj_elemenata > c1.broj_elemenata:
+                        pass
+
+                    for t in c3.tipovi:
+                        if t != tip:
+                            pass
+
             else:
                 pass
         else:
@@ -1365,6 +1402,13 @@ class izravni_deklarator(GS.Cvor):
 
                 if self.ntip == 'void':
                     pass
+
+                uvjet = pomocne.provjeri_identifikator_lokalno(self, c1.ime)
+
+                if uvjet:
+                    pass
+
+                pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
 
                 #provjeri ime bla bla bla
             else:
@@ -1391,22 +1435,43 @@ class izravni_deklarator(GS.Cvor):
                 if c3.vrijednost <= 0 or c3.vrijednost > 1024:
                     pass
 
+                pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
+
+
                 #zabilježi deklaraciju i tip
 
             elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
                 isinstance(c3, ZK.KR_VOID) and isinstance(c4, ZK.D_ZAGRADA):
 
+                uvjet = pomocne.provjeri_deklaraciju_i_tipove(self, c1.ime, self.ntip)
+
+                if uvjet == False:
+                    pass
+
+                if uvjet == None:
+                    pomocne.dodaj_lokalnu_funkciju_void(self, c1.ime, self.ntip)
+
                 # postavi tip za funkciju sta vraca void
                 #ovu bas ne kuzim
 
-                'placeholder'
+                
             
             elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
                 isinstance(c3, lista_parametara) and isinstance(c3, ZK.D_ZAGRADA):
 
                 c3.izvedi_svojstva()
 
-                ##zapisat funkciju u self i tip
+                uvjet = pomocne.provjeri_deklaraciju_i_tipove(self, c1.ime, self.ntip, c3.tipovi)
+
+                if uvjet == False:
+                    pass
+
+                if uvjet == None:
+
+                    pomocne.dodaj_lokalnu_funkciju(self, c1.ime, self.ntip, False, c3.tipovi)
+
+                else:
+                    pass
 
             else:
                 pass
