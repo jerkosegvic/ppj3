@@ -76,20 +76,27 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
                         return False
     return False
 
-def provjeri_cast():
-    pass
+def provjeri_cast(tip1, tip2):
+    #print("tipovi su " + tip1 + " i " + tip2)
+    if tip2 != "int" and tip2 != "char":
+        return False
+    if tip1 == "int" or tip1 == "char":
+
+        return True
+    return False
+    
 
 def u_petlji(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    print(blok_cvor.tip)
+    #print("blok cvor koji provjeravam je " + str(cvor.id) + ", a tip mu je ", blok_cvor.tip)
     if blok_cvor.tip == "for" or blok_cvor.tip == "while":
         return True
     else:
         if blok_cvor.parent == None:
             return False
         else:
-            return u_petlji(blok_cvor.parent)
+            return u_petlji(cvor.parent)
 
 def u_void_funkciji(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
@@ -100,7 +107,7 @@ def u_void_funkciji(cvor):
         if blok_cvor.parent == None:
             return False
         else:
-            return u_void_funkciji(blok_cvor.parent)
+            return u_void_funkciji(cvor.parent)
 
 def tip_funkcije(cvor, trazeni_tip):
     id_bloka = GS.Cvor.tablice[cvor.id]
@@ -114,7 +121,7 @@ def tip_funkcije(cvor, trazeni_tip):
         if blok_cvor.parent == None:
             return False
         else:
-            return tip_funkcije(blok_cvor.parent, trazeni_tip)
+            return tip_funkcije(cvor.parent, trazeni_tip)
 
 def porvjeri_egzistenciju(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]
@@ -126,7 +133,7 @@ def porvjeri_egzistenciju(cvor, ime):
         if blok_cvor.parent == None:
             return False
         else:
-            return porvjeri_egzistenciju(blok_cvor.parent, ime)
+            return porvjeri_egzistenciju(cvor.parent, ime)
 
 
 def dodaj_lokalnu_funkciju_void(cvor, ime, tip, definirana):
@@ -208,7 +215,7 @@ def tip_idn(cvor, ime):
     if blok_cvor.parent == None:
         return None
     else:
-        return tip_idn(blok_cvor.parent, ime)
+        return tip_idn(cvor.parent, ime)
 
 def updateaj_blok(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
@@ -224,3 +231,14 @@ def dodaj_lokalni_niz(cvor, ime, tip, duljina):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     blok_cvor.dodaj_lokalni_niz(ime, tip, duljina)
+
+def varijabla_je(cvor, idnn):
+    if idnn == None:
+        return True
+    idn = idnn.ime
+    id_bloka = GS.Cvor.tablice[cvor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    if idn in blok_cvor.tablica_lokalnih_varijabli.keys() or idn in blok_cvor.nasljedena_tablica_varijabli.keys():
+        return True
+    else:
+        return False

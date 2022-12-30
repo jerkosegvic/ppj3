@@ -29,7 +29,7 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             novi = NK.lista_argumenata(value, dubina, parent)
         case "<unarni_izraz>":
             novi = NK.unarni_izraz(value, dubina, parent)
-        case "<unarn_ operator>":
+        case "<unarni_operator>":
             novi = NK.unarni_operator(value, dubina, parent)
         case "<cast_izraz>":
             novi = NK.cast_izraz(value, dubina, parent)
@@ -80,11 +80,14 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             
             #nas = copy.deepcopy(trenutni_blok.nasljedena_tablica)
             #nas.update(trenutni_blok.tablica_lokalnih)
-            pnovi = PS.Cvor(value, {}, {}, inst, rv, trenutni_blok.dubina + 1, trenutni_blok)
+            pnovi = PS.Cvor(value, {}, {}, inst, rv, trenutni_blok.dubina + 1, trenutni_blok, dubina)
             trenutni_blok.add_child(pnovi)
             trenutni_blok = pnovi
             dubina_bloka = dubina
             #print(dubina_bloka)
+            #print("mijenjam neki kurac1")
+            #print(trenutni)
+            #print(trenutni_blok)
         case "<lista_naredbi>":
             novi = NK.lista_naredbi(value, dubina, parent)
         case "<naredba>":
@@ -222,12 +225,14 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
 for line in lines:
     bez_spaceova = line.lstrip()
     num_leading_spaces = len(line) - len(bez_spaceova)
+    #print(bez_spaceova)
     if trenutni == None:
         #print("bez spaceova: " , end = " -> ")
         #print(bez_spaceova)
         trenutni = novi_cvor(bez_spaceova, dubina)
         GS.Cvor.korijen = trenutni
         dubina = num_leading_spaces
+        print(trenutni)
         continue
 
     if num_leading_spaces > dubina:
@@ -235,14 +240,15 @@ for line in lines:
         novi = novi_cvor(bez_spaceova, dubina, trenutni)
         trenutni.add_child(novi)
         trenutni = novi
+        
 
     elif num_leading_spaces < dubina:
         trenutni = trenutni.go_up(dubina - num_leading_spaces )
         dubina = num_leading_spaces
         if dubina < dubina_bloka:
             trenutni_blok = trenutni_blok.go_up(1)
-            dubina_bloka = dubina
-            #print("mijenjam neki kurac")
+            dubina_bloka = trenutni_blok.dubina_bloka
+            #print("mijenjam neki kurac2")
             #print(trenutni)
             #print(trenutni_blok)
         novi = novi_cvor(bez_spaceova, dubina, trenutni.parent)
@@ -255,7 +261,7 @@ for line in lines:
         trenutni.parent.add_child(novi)
         trenutni = novi
 
-    #print(trenutni)
+    print(trenutni)
     
 GS.Cvor.korijen.print_tree()
 GS.Cvor.korijen.izvedi_svojstva()

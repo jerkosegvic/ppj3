@@ -250,6 +250,14 @@ class cast_izraz(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tip = None
         self.lizraz = None
+    def nadi_postfiks(self):
+        trenutni = self
+        q = [self]
+        while not isinstance(trenutni, postfiks_izraz):
+            trenutni = q.pop(0)
+            for child in trenutni.children:
+                q.append(child)
+        return trenutni
 
     def izvedi_svojstva(self):
         if len(self.children) == 1:
@@ -271,8 +279,12 @@ class cast_izraz(GS.Cvor):
             if isinstance(c1, ZK.L_ZAGRADA) and isinstance(c2, ime_tipa) and isinstance(c3, ZK.D_ZAGRADA) and isinstance(c4, cast_izraz):
                 c2.izvedi_svojstva()
                 c4.izvedi_svojstva()
+                idn = c4.nadi_postfiks().dohvati_idn()
+                #print(self, " => ", idn)
+                uvjet = pomocne.varijabla_je(self, idn) and pomocne.provjeri_cast(c2.tip, c4.tip)
 
-                pomocne.provjeri_cast(c2.tip, c4.tip)
+                if not uvjet:
+                    print(self.id)
 
                 self.tip = c2.tip
                 self.lizraz = 0

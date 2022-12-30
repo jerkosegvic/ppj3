@@ -261,7 +261,7 @@ class OP_NEG(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
 
     def __str__(self):
-        return self.dubina*" " + self.value
+        return self.dubina*" " + self.value 
 
 class OP_TILDA(GS.Cvor):
     def __init__(self, value, dubina = 0, parent = None):

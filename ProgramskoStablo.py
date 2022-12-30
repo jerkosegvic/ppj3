@@ -5,9 +5,10 @@ class Cvor:
     korijen = None
     cid = 0
     cvorovi = []
-    def __init__(self, value, nasv = {}, nasf = {}, tip = None, rt = None, dubina = 0, parent = None):
+    def __init__(self, value, nasv = {}, nasf = {}, tip = None, rt = None, dubina = 0, parent = None, dubina_bloka = 0):
         self.value = value
         self.dubina = dubina
+        self.dubina_bloka = dubina_bloka
         self.parent = parent
         self.children = []
         self.tablica_lokalnih_varijabli = {}
@@ -33,8 +34,8 @@ class Cvor:
     
     def __str__(self):
         if self.parent == None:
-            return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID " + str(self.id) + "parent : None"    
-        return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID " + str(self.id) + "parent :" + str(self.parent.tip)
+            return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID: " + str(self.id) + ", parent: None"    
+        return self.dubina*" " + self.value + ", tip je " + str(self.tip) + ", vraca " + str(self.return_tip) +  ", ID: " + str(self.id) + ", parent ID: " + str(self.parent.id)
     
     def print_tree(self):
         print(self)
