@@ -8,11 +8,42 @@ def provjeri_idn(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if cvor.ime in blok_cvor.tablica_lokalnih_varijabli.keys() or \
-       cvor.ime in blok_cvor.nasljedena_tablica_varijabli.keys():
+       cvor.ime in blok_cvor.nasljedena_tablica_varijabli.keys() or \
+       cvor.ime in blok_cvor.tablica_lokalnih_funkcija.keys() or \
+       cvor.ime in blok_cvor.nasljedena_tablica_funkcija.keys():
         return True
     return False
 
 def provjeri_valjanost_argumenata(cvor, argumenti):
+    id_bloka = GS.Cvor.tablice[cvor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    if isinstance(cvor, NK.definicija_funkcije):
+        idn = cvor.ime
+        if idn != None:
+            if idn in blok_cvor.tablica_lokalnih_funkcija.keys():
+                dek = blok_cvor.tablica_lokalnih_funkcija[idn]
+                if isinstance(dek, D.funkcija):
+                    if len(dek.parametri) == len(argumenti):
+                        for i in range(len(dek.argumenti)):
+                            if dek.parametri[i].tip != argumenti[i]:
+                                return False
+                        return True
+                    else:
+                        return False
+
+            elif idn in blok_cvor.nasljedena_tablica_funkcija.keys():
+                dek = blok_cvor.nasljedena_tablica_funkcija[idn]
+                if isinstance(dek, D.funkcija):
+                    if len(dek.parametri) == len(argumenti):
+                        for i in range(len(dek.parametri)):
+                            if dek.parametri[i].tip != argumenti[i]:
+                                return False
+                        return True
+                    else:
+                        return False
+    return False
+
+def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if isinstance(cvor, NK.postfiks_izraz):
@@ -21,6 +52,8 @@ def provjeri_valjanost_argumenata(cvor, argumenti):
             if idn.ime in blok_cvor.tablica_lokalnih_funkcija.keys():
                 dek = blok_cvor.tablica_lokalnih_funkcija[idn.ime]
                 if isinstance(dek, D.funkcija):
+                    if dek.parametri == None and argumenti == None:
+                        return True
                     if len(dek.parametri) == len(argumenti):
                         for i in range(len(dek.argumenti)):
                             if dek.parametri[i].tip != argumenti[i]:
@@ -32,6 +65,8 @@ def provjeri_valjanost_argumenata(cvor, argumenti):
             elif idn.ime in blok_cvor.nasljedena_tablica_funkcija.keys():
                 dek = blok_cvor.nasljedena_tablica_funkcija[idn.ime]
                 if isinstance(dek, D.funkcija):
+                    if dek.parametri == None and argumenti == None:
+                        return True
                     if len(dek.parametri) == len(argumenti):
                         for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
@@ -139,3 +174,10 @@ def provjeri_deklaraciju_i_tipove(cvor, ime, tip, parametri = None):
             return False
     return False
     
+def izlaz(cvor):
+    out = ""
+    out += cvor.value + " ::= " 
+    for dijete in cvor.djeca:
+        out += str(dijete) + " "
+    print(out)
+    exit(0) 
