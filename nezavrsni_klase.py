@@ -1106,9 +1106,9 @@ class definicija_funkcije(GS.Cvor):
                     print(self.id)
 
                 #4. provjerit postoji li deklaracije funkcije
-                
-                    uvjet2 = pomocne.provjeri_valjanost_argumenata(self, ['void']) and \
-                        pomocne.tip_funkcije(self, c1.tip)
+
+                uvjet = pomocne.provjeri_valjanost_argumenata(self, None) and \
+                    pomocne.tip_funkcije(self, c1.tip)
 
                 if not uvjet2:
                     print(self.id)
