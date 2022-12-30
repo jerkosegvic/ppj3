@@ -207,3 +207,13 @@ def updateaj_blok(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     blok_cvor.update_tablice()
+
+def dodaj_lokalnu_varijablu(cvor, ime, tip):
+    id_bloka = GS.Cvor.tablice[cvor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    blok_cvor.dodaj_lokalnu_varijablu(ime, tip)
+
+def dodaj_lokalni_niz(cvor, ime, tip, duljina):
+    id_bloka = GS.Cvor.tablice[cvor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    blok_cvor.dodaj_lokalni_niz(ime, tip, duljina)
