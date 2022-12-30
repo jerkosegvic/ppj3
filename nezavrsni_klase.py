@@ -18,7 +18,6 @@ class primarni_izraz(GS.Cvor):
                 self.tip = pomocne.tip_idn(self, child.ime)
                 self.lizraz = child.lizraz
                 uvjet = pomocne.provjeri_idn(child)
-
                 if not uvjet:
                     print(self.id)
 
