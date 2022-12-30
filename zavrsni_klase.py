@@ -10,9 +10,17 @@ class IDN(GS.Cvor):
         return self.dubina*" " + self.value + " -> " + self.ime
 
 class BROJ(GS.Cvor):
+    najmanja_vrijednost = - (2 ** 31) 
+    najveca_vrijednost = 2 ** 31 - 1
     def __init__(self, value, vr, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.vrijednost = vr
+
+    def izvedi_svojstva(self):
+
+        if self.vrijednost < self.najmanja_vrijednost and self.vrijednost > self.najveca_vrijednost:
+
+            pass
 
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + str(self.vrijednost)
@@ -22,6 +30,18 @@ class ZNAK(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.vrijednost = vr
 
+    def izvedi_svojstva(self):
+
+        if len(self.vrijednost) == 2:
+
+            drugi_znak = self.vrijednost[1]
+
+            definirani = "tn0'\"\\"
+
+            if drugi_znak not in definirani:
+                pass
+        
+
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + self.vrijednost
 
@@ -29,6 +49,26 @@ class NIZ_ZNAKOVA(GS.Cvor):
     def __init__(self, value, vr, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.vrijednost = vr
+        self.tip = "niz(const(char))"
+
+    def izvedi_svojstva(self):
+
+        niz = self.vrijednost
+        definirani = "tn0'\"\\"
+
+
+        for i in range(len(niz)-1):
+            if niz[i] == '\\':
+
+                if niz[i+1] not in definirani:
+                    pass
+                
+        if niz[-1] != '\x00':
+            pass
+
+
+
+
 
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + self.vrijednost
