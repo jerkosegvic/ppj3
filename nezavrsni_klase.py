@@ -66,7 +66,7 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1, primarni_izraz):
 
                 if isinstance(c1.children[0], ZK.IDN):
-                    return c1.children[0].ime
+                    return c1.children[0]
         
         return None
 
@@ -87,7 +87,7 @@ class postfiks_izraz(GS.Cvor):
             c3 = self.children[2]
             c4 = self.children[3]
 
-            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.LU_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.DU_ZAGRADA):
+            if isinstance(c1, postfiks_izraz) and isinstance(c2, ZK.L_UGL_ZAGRADA) and isinstance(c3, izraz) and isinstance(c4, ZK.D_UGL_ZAGRADA):
 
                 #ovo je indeksiranje, oblik tipa a[2]
 
@@ -117,7 +117,7 @@ class postfiks_izraz(GS.Cvor):
                 parametri = c1.parm_tip
                 argumetni = c3.tipovi
 
-                valjano = pomocne.provjeri_valjanost_argumenata(self,argumetni)
+                valjano = pomocne.provjeri_valjanost_argumenata_postfiks(c1,argumetni)
 
                 if not valjano:
                     print(self.id)
@@ -138,9 +138,10 @@ class postfiks_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
 
-                uvjet = pomocne.provjeri_valjanost_argumenata(self, None)
+                uvjet = pomocne.provjeri_valjanost_argumenata_postfiks(c1, None)
 
                 if not uvjet:
+                    print('hello')
                     print(self.id)
             else:
                 print(self.id)
@@ -1370,8 +1371,6 @@ class init_deklarator(GS.Cvor):
                         tip = tip[6 : len(tip) - 1]
                     
                     if c3.tip != tip:
-                        print(c3.tip)
-                        print(tip)
                         print(self.id)
                 else:
 
@@ -1440,12 +1439,14 @@ class izravni_deklarator(GS.Cvor):
                 if self.ntip == 'void':
                     print(self.id)
 
-                uvjet = pomocne.provjeri_lokalno(self, c1.ime)
+                self.tip = 'niz(' + self.ntip + ')'
+
+                uvjet = pomocne.provjeri_identifikator_lokalno(self, c1.ime)
 
                 if uvjet:
                     print(self.id)
 
-                if c3.vrijednost <= 0 or c3.vrijednost > 1024:
+                if int(c3.vrijednost) <= 0 or int(c3.vrijednost) > 1024:
                     print(self.id)
 
                 pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
@@ -1519,7 +1520,6 @@ class inicijalizator(GS.Cvor):
                 else:
 
                     c1.izvedi_svojstva()
-                    print(c1.tip)
                     self.tip = c1.tip
 
 
