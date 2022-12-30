@@ -185,23 +185,28 @@ def izlaz(cvor):
 def tip_idn(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    rrv = None
     if ime in blok_cvor.tablica_lokalnih_varijabli.keys():
-        return blok_cvor.tablica_lokalnih_varijabli[ime].tip
-    
+        rrv = blok_cvor.tablica_lokalnih_varijabli[ime].tip
+        
     elif ime in blok_cvor.tablica_lokalnih_funkcija.keys():
-        return blok_cvor.tablica_lokalnih_funkcija[ime].tip
+        rrv = blok_cvor.tablica_lokalnih_funkcija[ime].tip
 
     elif ime in blok_cvor.nasljedena_tablica_varijabli.keys():
-        return blok_cvor.nasljedena_tablica_varijabli[ime].tip
+        rrv = blok_cvor.nasljedena_tablica_varijabli[ime].tip
 
     elif ime in blok_cvor.nasljedena_tablica_funkcija.keys():
-        return blok_cvor.nasljedena_tablica_funkcija[ime].tip
+        rrv = blok_cvor.nasljedena_tablica_funkcija[ime].tip
 
-    else:
-        if blok_cvor.parent == None:
-            return None
+    if rrv != None:
+        if isinstance(rrv, D.niz):
+            return "niz(" + rrv.tip + ")"
         else:
-            return tip_idn(blok_cvor.parent, ime)
+            return rrv
+    if blok_cvor.parent == None:
+        return None
+    else:
+        return tip_idn(blok_cvor.parent, ime)
 
 def updateaj_blok(cvor):
     id_bloka = GS.Cvor.tablice[cvor.id]
