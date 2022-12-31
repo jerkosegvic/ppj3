@@ -137,8 +137,8 @@ class postfiks_izraz(GS.Cvor):
                 #ovo je za poziv funckije s argumentima!
 
                 c1.izvedi_svojstva()
-                #if c1.oblik != 'funkcija':
-                #    pomocne.izlaz(self)
+                if c1.oblik != 'funkcija':
+                    pomocne.izlaz(self)
 
                 c3.izvedi_svojstva()
 
@@ -165,8 +165,8 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1,postfiks_izraz) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, ZK.D_ZAGRADA):
 
                 c1.izvedi_svojstva()
-                #if c1.oblik != 'funkcija':
-                #    pomocne.izlaz(self)
+                if c1.oblik != 'funkcija':
+                    pomocne.izlaz(self)
 
                 self.tip = c1.tip
                 self.oblik = c1.oblik
@@ -183,8 +183,8 @@ class postfiks_izraz(GS.Cvor):
 
             if isinstance(c1, postfiks_izraz) and (isinstance(c2,ZK.OP_INC) or isinstance(c2,ZK.OP_DEC)):
                 c1.izvedi_svojstva()
-                #if c1.oblik == 'funkcija':
-                #    pomocne.izlaz(self)
+                if c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
 
                 if c1.lizraz == 0 or c1.tip != 'int':
                     pomocne.izlaz(self)

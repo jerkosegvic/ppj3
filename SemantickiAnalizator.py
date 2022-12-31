@@ -2,6 +2,7 @@ import sys
 import GenerativnoStablo as GS
 import nezavrsni_klase as NK
 import ProgramskoStablo as PS
+import pomocne_funkcije as pomocne
 import zavrsni_klase as ZK
 import copy
 
@@ -266,6 +267,8 @@ for line in lines:
     #print(trenutni)
     
 #GS.Cvor.korijen.print_tree()
-GS.Cvor.korijen.izvedi_svojstva()
 #PS.Cvor.korijen.print_tree()
+GS.Cvor.korijen.izvedi_svojstva()
+pomocne.provjeri_main()
+pomocne.provjeri_definicije()
 

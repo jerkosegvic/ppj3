@@ -268,3 +268,32 @@ def nadi_oblik(scor, idnn):
         return 'funkcija'
     else:
         return None
+
+def provjeri_main():
+    cvor = PS.Cvor.korijen
+    if 'main' not in cvor.tablica_lokalnih_funkcija.keys():
+        print('main')
+        exit(0)
+
+def provjeri_definicije():
+    funkcije = {}
+    cvor = PS.Cvor.korijen
+    q = [cvor]
+    while len(q) > 0:
+        cvor = q.pop(0)
+        for dijete in cvor.children:
+            for i in dijete.tablica_lokalnih_funkcija.keys():
+                ime = i + '(' + str(dijete.tablica_lokalnih_funkcija[i].parametri) + ')->' + dijete.tablica_lokalnih_funkcija[i].tip
+                if ime in funkcije.keys():
+                    if funkcije[ime] == 0 and dijete.tablica_lokalnih_funkcija[i].definirana == True:
+                        funkcije[ime] = 1
+                else:
+                    funkcije[ime] = 0
+                    if dijete.tablica_lokalnih_funkcija[i].definirana == True:
+                        funkcije[ime] = 1
+            q.append(dijete)
+
+    for ime in funkcije.keys():
+        if funkcije[ime] == 0:
+            print('funkcija')
+            exit(0)
