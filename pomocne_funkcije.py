@@ -148,6 +148,7 @@ def dodaj_lokalnu_funkciju_void(cvor, ime, tip, definirana):
 def dodaj_lokalnu_funkciju(cvor, ime, tip, definirana, parametri):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    print("i tu su parametri ", parametri)
     blok_cvor.dodaj_lokalnu_funkciju(ime, tip, definirana, parametri)
 
 def dodaj_argumente(cvor, argumenti):

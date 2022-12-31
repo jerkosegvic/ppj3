@@ -1585,7 +1585,7 @@ class izravni_deklarator(GS.Cvor):
                     pomocne.izlaz(self)
 
                 if uvjet == None:
-
+                    print("parametri su -> ", c3.tipovi)
                     pomocne.dodaj_lokalnu_funkciju(self, c1.ime, self.ntip, False, c3.tipovi)
 
                 else:

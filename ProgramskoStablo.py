@@ -83,7 +83,7 @@ class Cvor:
         else:
             parametri = []
             for parametar in parametri_tuple:
-                np = dek.varijabla(parametar[0], parametar[1])
+                np = dek.varijabla(parametar[1], parametar[0])
                 parametri.append(np)
             self.tablica_lokalnih_funkcija[ime] = dek.funkcija(ime, tip, definirana, parametri)
             return True
