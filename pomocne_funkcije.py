@@ -47,14 +47,18 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if isinstance(cvor, NK.postfiks_izraz):
-        idn = cvor.dohvati_idn()        
+        idn = cvor.dohvati_idn()  
+        print("idn mi je ", idn)      
         if idn != None:
             if idn.ime in blok_cvor.tablica_lokalnih_funkcija.keys():
                 dek = blok_cvor.tablica_lokalnih_funkcija[idn.ime]
+                print("dek mi je ", dek, " a argumenti su ", argumenti, " a tip dek-a je ", dek.tip , " a parametri su ", dek.parametri[0].tip)
                 if isinstance(dek, D.funkcija):
+                    print("zakljucio sam da ovo je funkcija")
                     if dek.parametri == None and argumenti == None:
                         return True
                     if len(dek.parametri) == len(argumenti):
+                        print("i tu sam doso")
                         for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
                                 return False

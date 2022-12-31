@@ -144,12 +144,13 @@ class postfiks_izraz(GS.Cvor):
 
                 c3.izvedi_svojstva()
 
-                parametri = c1.parm_tip
+                #parametri = c1.parm_tip
                 argumetni = c3.tipovi
 
                 valjano = pomocne.provjeri_valjanost_argumenata_postfiks(c1,argumetni)
 
                 if not valjano:
+                    print("tu sam ", argumetni)
                     pomocne.izlaz(self)
 
                 self.tip = c1.pov
@@ -227,6 +228,9 @@ class lista_argumenata(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 self.tipovi = c1.tipovi.append(c3.tip)
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
 
             else:
                 pomocne.izlaz(self)
@@ -400,6 +404,7 @@ class multiplikativni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -412,11 +417,14 @@ class multiplikativni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 c3.izvedi_svojstva()
 
-                if c1.tip != 'int' and c2.tip != 'int':
+                if c1.tip != 'int' and c3.tip != 'int':
                     pomocne.izlaz(self)
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -437,6 +445,7 @@ class aditivni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -454,6 +463,9 @@ class aditivni_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -474,6 +486,7 @@ class odnosni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -491,6 +504,9 @@ class odnosni_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -511,6 +527,7 @@ class jednakosni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -528,6 +545,9 @@ class jednakosni_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -548,6 +568,7 @@ class bin_i_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -565,6 +586,9 @@ class bin_i_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -585,6 +609,7 @@ class bin_xili_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -602,6 +627,7 @@ class bin_xili_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -622,6 +648,7 @@ class bin_ili_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -639,6 +666,9 @@ class bin_ili_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -659,6 +689,7 @@ class log_i_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -676,6 +707,9 @@ class log_i_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -696,6 +730,7 @@ class log_ili_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -713,6 +748,9 @@ class log_ili_izraz(GS.Cvor):
                 
                 self.tip = 'int'
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -755,7 +793,10 @@ class izraz_pridruzivanja(GS.Cvor):
                 if c1.lizraz == 0:
                     pomocne.izlaz(self)
                 
+                self.oblik = c1.oblik
                 self.tip = c1.tip
+                if c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
                 self.lizraz = 0
             else:
                 pomocne.izlaz(self)
@@ -777,6 +818,7 @@ class izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -791,6 +833,9 @@ class izraz(GS.Cvor):
                 
                 self.tip = c3.tip
                 self.lizraz = 0
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+                self.oblik = None
             else:
                 pomocne.izlaz(self)
         else:
@@ -1530,7 +1575,7 @@ class izravni_deklarator(GS.Cvor):
                 
             
             elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
-                isinstance(c3, lista_parametara) and isinstance(c3, ZK.D_ZAGRADA):
+                isinstance(c3, lista_parametara) and isinstance(c4, ZK.D_ZAGRADA):
 
                 c3.izvedi_svojstva()
 
