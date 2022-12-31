@@ -1586,7 +1586,8 @@ class izravni_deklarator(GS.Cvor):
 
                 if uvjet == None:
 
-                    pomocne.dodaj_lokalnu_funkciju(self, c1.ime, self.ntip, False, c3.tipovi)
+                    tipovi_tuplovi = list(zip(c3.tipovi, c3.imena))
+                    pomocne.dodaj_lokalnu_funkciju(self, c1.ime, self.ntip, False, tipovi_tuplovi)
 
                 else:
                     pomocne.izlaz(self)
