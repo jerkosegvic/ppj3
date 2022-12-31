@@ -114,14 +114,14 @@ class postfiks_izraz(GS.Cvor):
                 #ovo je indeksiranje, oblik tipa a[2]
                 c1.izvedi_svojstva()
 
-                #if c1.oblik != 'niz':
-                 #   pomocne.izlaz(self)
+                if c1.oblik != 'niz':
+                    pomocne.izlaz(self)
 
                 if c1.tip.startswith('niz'): #trebamo se jos dogovorit kako tip odredit, ugl ovo mora provjeravat je li c1 dopušteni niz
                     # niz tipa niz(niz(int)) nije dopušten!
                     tip = c1.tip[4:len(c1.tip)-1]
                     self.tip = tip
-                    self.oblik = c1.oblik
+                    self.oblik = 'indeksirani_niz'
                     # osiguraj samo jedan niz
                     if tip.startswith('const'):
                         self.lizraz = 0
@@ -151,7 +151,7 @@ class postfiks_izraz(GS.Cvor):
                     pomocne.izlaz(self)
 
                 self.tip = c1.pov
-                self.oblik = c1.oblik
+                self.oblik = 'pozvana_funkcija'
                 self.lizraz = 0
             else:
                 pomocne.izlaz(self)
@@ -169,7 +169,7 @@ class postfiks_izraz(GS.Cvor):
                     pomocne.izlaz(self)
 
                 self.tip = c1.tip
-                self.oblik = c1.oblik
+                self.oblik = 'pozvana_funkcija'
                 uvjet = pomocne.provjeri_valjanost_argumenata_postfiks(c1, None)
 
                 if not uvjet:
