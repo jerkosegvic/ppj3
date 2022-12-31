@@ -512,7 +512,7 @@ class jednakosni_izraz(GS.Cvor):
             c2 = self.children[1]
             c3 = self.children[2]
 
-            if isinstance(c1, aditivni_izraz) and (isinstance(c2,ZK.OP_EQ) or isinstance(c2,ZK.NEQ)) and isinstance(c3, odnosni_izraz):
+            if isinstance(c1, jednakosni_izraz) and (isinstance(c2,ZK.OP_EQ) or isinstance(c2,ZK.NEQ)) and isinstance(c3, odnosni_izraz):
                 c1.izvedi_svojstva()
                 c3.izvedi_svojstva()
 
