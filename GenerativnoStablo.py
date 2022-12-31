@@ -10,9 +10,15 @@ class Cvor:
         self.dubina = dubina
         self.nasljedna = []
         self.izvedena = []
+        self.red = None
+        self.znak = None
         self.id = Cvor.cid
         Cvor.cid += 1
         Cvor.cvorovi.append(self)
+
+    def dodaj_za_zavrsni(self, red, znak):
+        self.red = red
+        self.znak = znak
 
     def go_up(self, n):
         if self.parent == None:

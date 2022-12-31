@@ -217,6 +217,8 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             novi = ZK.D_UGL_ZAGRADA(value, dubina, parent)
 #        case _ :
 #            novi = GS.Cvor(value, dubina, parent)
+    if len(value_list) == 3:
+        novi.dodaj_za_zavrsni(value_list[1], value_list[2])
     GS.Cvor.tablice.append(trenutni_blok.id)
     #print(novi)  
 
@@ -232,7 +234,7 @@ for line in lines:
         trenutni = novi_cvor(bez_spaceova, dubina)
         GS.Cvor.korijen = trenutni
         dubina = num_leading_spaces
-        print(trenutni)
+        #print(trenutni)
         continue
 
     if num_leading_spaces > dubina:
@@ -261,8 +263,8 @@ for line in lines:
         trenutni.parent.add_child(novi)
         trenutni = novi
 
-    print(trenutni)
+    #print(trenutni)
     
-GS.Cvor.korijen.print_tree()
+#GS.Cvor.korijen.print_tree()
 GS.Cvor.korijen.izvedi_svojstva()
-PS.Cvor.korijen.print_tree()
+#PS.Cvor.korijen.print_tree()

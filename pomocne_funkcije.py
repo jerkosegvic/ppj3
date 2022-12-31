@@ -184,9 +184,12 @@ def provjeri_deklaraciju_i_tipove(cvor, ime, tip, parametri = None):
     
 def izlaz(cvor):
     out = ""
-    out += cvor.value + " ::= " 
-    for dijete in cvor.djeca:
-        out += str(dijete) + " "
+    out += cvor.value + " ::=" 
+    for dijete in cvor.children:
+        if dijete.red != None:
+            out += " " + dijete.value + "(" + str(dijete.red) + ',' + str(dijete.znak) +")"
+        else:
+            out += " " + str(dijete.value) 
     print(out)
     exit(0) 
 
