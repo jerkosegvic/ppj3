@@ -2,6 +2,7 @@ import GenerativnoStablo as GS
 import zavrsni_klase as ZK
 import pomocne_funkcije as pomocne
 import ProgramskoStablo as PS
+import copy
 
 #IZRAZI
 class primarni_izraz(GS.Cvor):
@@ -149,11 +150,10 @@ class postfiks_izraz(GS.Cvor):
 
                 valjano = pomocne.provjeri_valjanost_argumenata_postfiks(c1,argumetni)
 
-                if not valjano:
-                    print("tu sam ", argumetni)
+                if not valjano:              
                     pomocne.izlaz(self)
 
-                self.tip = c1.pov
+                self.tip = c1.tip
                 self.oblik = 'pozvana_funkcija'
                 self.lizraz = 0
             else:
@@ -227,7 +227,8 @@ class lista_argumenata(GS.Cvor):
                 c1.izvedi_svojstva()
                 c3.izvedi_svojstva()
 
-                self.tipovi = c1.tipovi.append(c3.tip)
+                self.tipovi = copy.deepcopy(c1.tipovi)
+                self.tipovi.append(c3.tip)
                 if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
                     pomocne.izlaz(self)
                 self.oblik = None
@@ -775,6 +776,7 @@ class izraz_pridruzivanja(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -793,9 +795,9 @@ class izraz_pridruzivanja(GS.Cvor):
                 if c1.lizraz == 0:
                     pomocne.izlaz(self)
                 
-                self.oblik = c1.oblik
+                self.oblik = c3.oblik
                 self.tip = c1.tip
-                if c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija':
                     pomocne.izlaz(self)
                 self.lizraz = 0
             else:
@@ -1201,8 +1203,8 @@ class definicija_funkcije(GS.Cvor):
 
                 if c1.tip.startswith('const'):
                     pomocne.izlaz(self)
-
-                uvjet = pomocne.porvjeri_egzistenciju(self, c2.ime)
+                
+                uvjet = pomocne.provjeri_egzistenciju(self, c2.ime)
                 uvjet2 = True
                 if uvjet:
                     pomocne.izlaz(self)
@@ -1218,6 +1220,7 @@ class definicija_funkcije(GS.Cvor):
                 pomocne.dodaj_lokalnu_funkciju_void(self, c2.ime, c1.tip, True)
                 
                 c6.izvedi_svojstva()
+                self.oblik = 'definirana_funkcija'
 
             elif isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN) and isinstance(c3, ZK.L_ZAGRADA) \
                 and isinstance(c4, lista_parametara) and isinstance(c5, ZK.D_ZAGRADA) and isinstance(c6, slozena_naredba):
@@ -1227,7 +1230,7 @@ class definicija_funkcije(GS.Cvor):
                 if c1.tip.startswith('const'):
                     pomocne.izlaz(self)
 
-                uvjet = pomocne.provjeri_egzistenciju_funckije(self, c2.ime)
+                uvjet = pomocne.provjeri_egzistenciju(self, c2.ime)
 
                 if uvjet:
                     pomocne.izlaz(self)
@@ -1243,7 +1246,7 @@ class definicija_funkcije(GS.Cvor):
                 pomocne.dodaj_argumente(c6, tipovi_tuplovi)
 
                 c6.izvedi_svojstva()
-
+                self.oblik = 'definirana_funkcija'
 
             else:
                 pomocne.izlaz(self)
@@ -1266,10 +1269,9 @@ class lista_parametara(GS.Cvor):
             if isinstance(c1, deklaracija_parametra):
 
                 c1.izvedi_svojstva()
-
+                
                 self.tipovi = [c1.tip]
                 self.imena = [c1.ime]
-
             else:
                 pomocne.izlaz(self)
         elif len(self.children) == 3:
@@ -1285,8 +1287,10 @@ class lista_parametara(GS.Cvor):
                 if c3.ime in c1.imena:
                     pomocne.izlaz(self)
 
-                self.tipovi = c1.tipovi.append(c3.tip)
-                self.imena = c1.imena.append(c3.ime)
+                self.tipovi = copy.deepcopy(c1.tipovi)
+                self.tipovi.append(c3.tip)
+                self.imena = copy.deepcopy(c1.imena)
+                self.imena.append(c3.ime)
             else:
                 pomocne.izlaz(self)
         else:
@@ -1312,6 +1316,7 @@ class deklaracija_parametra(GS.Cvor):
 
                 self.tip = c1.tip
                 self.ime = c2.ime
+                self.oblik = 'var'
             else:
                 pomocne.izlaz(self)
 
@@ -1331,6 +1336,7 @@ class deklaracija_parametra(GS.Cvor):
 
                 self.tip = c1.tip
                 self.ime = c2.ime
+                self.oblik = 'niz'
             else:
                 pomocne.izlaz(self)
         else:
@@ -1422,6 +1428,7 @@ class lista_init_deklaratora(GS.Cvor):
 
                 c3.ntip = self.ntip
                 c3.izvedi_svojstva()
+
             else:
                 pomocne.izlaz(self)
 
@@ -1444,6 +1451,8 @@ class init_deklarator(GS.Cvor):
 
                 c1.ntip = self.ntip
                 c1.izvedi_svojstva()
+                self.oblik = c1.oblik
+                
 
                 if c1.tip.startswith('const') or c1.tip.startswith('niz(const'):
                     pomocne.izlaz(self)
@@ -1485,7 +1494,9 @@ class init_deklarator(GS.Cvor):
                     for t in c3.tipovi:
                         if t != tip:
                             pomocne.izlaz(self)
-
+                #print(c3.oblik)
+                if c3.oblik == 'funkcija':
+                    pomocne.izlaz(self)
             else:
                 pomocne.izlaz(self)
         else:
@@ -1585,7 +1596,6 @@ class izravni_deklarator(GS.Cvor):
                     pomocne.izlaz(self)
 
                 if uvjet == None:
-
                     tipovi_tuplovi = list(zip(c3.tipovi, c3.imena))
                     pomocne.dodaj_lokalnu_funkciju(self, c1.ime, self.ntip, False, tipovi_tuplovi)
 
@@ -1622,6 +1632,7 @@ class inicijalizator(GS.Cvor):
 
                     c1.izvedi_svojstva()
                     self.tip = c1.tip
+                    self.oblik = c1.oblik
 
 
             else:
@@ -1661,7 +1672,8 @@ class lista_izraza_pridruzivanja(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 self.broj_elemenata = c1.broj_elemenata + 1
-                self.tipovi = c1.tipovi.append(c3.tip)
+                self.tipovi = copy.deepcopy(c1.tipovi)
+                self.tipovi.append(c3.tip)
             else:
                 pomocne.izlaz(self)
 

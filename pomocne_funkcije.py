@@ -23,6 +23,10 @@ def provjeri_valjanost_argumenata(cvor, argumenti):
             if idn in blok_cvor.tablica_lokalnih_funkcija.keys():
                 dek = blok_cvor.tablica_lokalnih_funkcija[idn]
                 if isinstance(dek, D.funkcija):
+                    if dek.parametri == None and argumenti == None:
+                        return True
+                    elif dek.parametri == None or argumenti == None:
+                        return False
                     if len(dek.parametri) == len(argumenti):
                         for i in range(len(dek.argumenti)):
                             if dek.parametri[i].tip != argumenti[i]:
@@ -34,6 +38,10 @@ def provjeri_valjanost_argumenata(cvor, argumenti):
             elif idn in blok_cvor.nasljedena_tablica_funkcija.keys():
                 dek = blok_cvor.nasljedena_tablica_funkcija[idn]
                 if isinstance(dek, D.funkcija):
+                    if dek.parametri == None and argumenti == None:
+                        return True
+                    elif dek.parametri == None or argumenti == None:
+                        return False
                     if len(dek.parametri) == len(argumenti):
                         for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
@@ -48,17 +56,19 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if isinstance(cvor, NK.postfiks_izraz):
         idn = cvor.dohvati_idn()  
-        print("idn mi je ", idn)      
+        #print("idn mi je ", idn)      
         if idn != None:
             if idn.ime in blok_cvor.tablica_lokalnih_funkcija.keys():
                 dek = blok_cvor.tablica_lokalnih_funkcija[idn.ime]
-                print("dek mi je ", dek, " a argumenti su ", argumenti, " a tip dek-a je ", dek.tip , " a parametri su ", dek.parametri[0].tip)
+                #print("dek mi je ", dek, " a argumenti su ", argumenti, " a tip dek-a je ", dek.tip , " a parametri su ", dek.parametri[0].tip)
                 if isinstance(dek, D.funkcija):
-                    print("zakljucio sam da ovo je funkcija")
+                    #print("zakljucio sam da ovo je funkcija")
                     if dek.parametri == None and argumenti == None:
                         return True
+                    elif dek.parametri == None or argumenti == None:
+                        return False
                     if len(dek.parametri) == len(argumenti):
-                        print("i tu sam doso")
+                        #print("i tu sam doso")
                         for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
                                 return False
@@ -71,6 +81,8 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
                 if isinstance(dek, D.funkcija):
                     if dek.parametri == None and argumenti == None:
                         return True
+                    elif dek.parametri == None or argumenti == None:
+                        return False
                     if len(dek.parametri) == len(argumenti):
                         for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
@@ -127,7 +139,7 @@ def tip_funkcije(cvor, trazeni_tip):
         else:
             return tip_funkcije(cvor.parent, trazeni_tip)
 
-def porvjeri_egzistenciju(cvor, ime):
+def provjeri_egzistenciju(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if ime in blok_cvor.tablica_lokalnih_funkcija.keys() or \
@@ -137,7 +149,7 @@ def porvjeri_egzistenciju(cvor, ime):
         if blok_cvor.parent == None:
             return False
         else:
-            return porvjeri_egzistenciju(cvor.parent, ime)
+            return provjeri_egzistenciju(cvor.parent, ime)
 
 
 def dodaj_lokalnu_funkciju_void(cvor, ime, tip, definirana):
@@ -148,7 +160,6 @@ def dodaj_lokalnu_funkciju_void(cvor, ime, tip, definirana):
 def dodaj_lokalnu_funkciju(cvor, ime, tip, definirana, parametri):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
-    print("i tu su parametri ", parametri)
     blok_cvor.dodaj_lokalnu_funkciju(ime, tip, definirana, parametri)
 
 def dodaj_argumente(cvor, argumenti):
@@ -260,6 +271,8 @@ def nadi_oblik(scor, idnn):
             return 'var'
         else :
             return 'niz'
+    elif idn in blok_cvor.tablica_lokalnih_funkcija.keys():
+        return 'funkcija'
 
     elif idn in blok_cvor.nasljedena_tablica_varijabli.keys():
         if isinstance(blok_cvor.nasljedena_tablica_varijabli[idn], D.varijabla):
@@ -267,8 +280,6 @@ def nadi_oblik(scor, idnn):
         else :
             return 'niz'
 
-    elif idn in blok_cvor.tablica_lokalnih_funkcija.keys():
-        return 'funkcija'
     elif idn in blok_cvor.nasljedena_tablica_funkcija.keys():
         return 'funkcija'
     else:
