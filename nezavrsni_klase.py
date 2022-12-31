@@ -992,7 +992,7 @@ class naredba_petlje(GS.Cvor):
                     pomocne.izlaz(self)
                
                c5.izvedi_svojstva()
-               c6.izvedi_svojstva()
+               c7.izvedi_svojstva()
             else:
                 pomocne.izlaz(self)
         else:
@@ -1380,13 +1380,14 @@ class init_deklarator(GS.Cvor):
 
                 #nemam snage za provjerit 3 jbg
                 tip = c1.tip
-                if not tip.startswith('niz'):
+                print(c3.children)
+                if tip in ['int','char','const(int)','const(char)']:
                     if tip.startswith('const'):
                         tip = tip[6 : len(tip) - 1]
                     
                     if c3.tip != tip:
                         pomocne.izlaz(self)
-                else:
+                elif tip.startswith('niz'):
 
                     tip = tip[4 : len(tip) - 1]
 
@@ -1399,6 +1400,8 @@ class init_deklarator(GS.Cvor):
                     for t in c3.tipovi:
                         if t != tip:
                             pomocne.izlaz(self)
+                else:
+                    pomocne.izlaz(self)
 
             else:
                 pomocne.izlaz(self)
@@ -1428,6 +1431,7 @@ class izravni_deklarator(GS.Cvor):
                 
                 if self.ntip == 'void':
                     pomocne.izlaz(self)
+                    
 
                 uvjet = pomocne.provjeri_identifikator_lokalno(self, c1.ime)
                 c1.tip = self.ntip
@@ -1489,7 +1493,7 @@ class izravni_deklarator(GS.Cvor):
                 
             
             elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
-                isinstance(c3, lista_parametara) and isinstance(c3, ZK.D_ZAGRADA):
+                isinstance(c3, lista_parametara) and isinstance(c4, ZK.D_ZAGRADA):
 
                 c3.izvedi_svojstva()
 
