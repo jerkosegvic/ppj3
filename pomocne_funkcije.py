@@ -47,7 +47,7 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if isinstance(cvor, NK.postfiks_izraz):
-        idn = cvor.dohvati_idn()
+        idn = cvor.dohvati_idn()        
         if idn != None:
             if idn.ime in blok_cvor.tablica_lokalnih_funkcija.keys():
                 dek = blok_cvor.tablica_lokalnih_funkcija[idn.ime]
@@ -55,7 +55,7 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
                     if dek.parametri == None and argumenti == None:
                         return True
                     if len(dek.parametri) == len(argumenti):
-                        for i in range(len(dek.argumenti)):
+                        for i in range(len(dek.parametri)):
                             if dek.parametri[i].tip != argumenti[i]:
                                 return False
                         return True
@@ -246,7 +246,7 @@ def varijabla_je(cvor, idnn):
     else:
         return False
 
-def nadi_pomocne(scor, idnn):
+def nadi_oblik(scor, idnn):
     idn = idnn.ime
     id_bloka = GS.Cvor.tablice[scor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
@@ -257,7 +257,7 @@ def nadi_pomocne(scor, idnn):
             return 'niz'
 
     elif idn in blok_cvor.nasljedena_tablica_varijabli.keys():
-        if isinstance(blok_cvor.nasljedna_tablica_varijabli[idn], D.varijabla):
+        if isinstance(blok_cvor.nasljedena_tablica_varijabli[idn], D.varijabla):
             return 'var'
         else :
             return 'niz'

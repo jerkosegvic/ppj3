@@ -12,6 +12,7 @@ class Cvor:
         self.izvedena = []
         self.red = None
         self.znak = None
+        self.oblik = None
         self.id = Cvor.cid
         Cvor.cid += 1
         Cvor.cvorovi.append(self)

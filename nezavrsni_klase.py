@@ -60,7 +60,7 @@ class postfiks_izraz(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tip = None
         self.lizraz = None
-        self.oblik = None
+        
 
     def dohvati_idn2(self):
         if len(self.children) == 1:
@@ -77,7 +77,7 @@ class postfiks_izraz(GS.Cvor):
         #print("dohvacam idn za postfiks izraz ", str(self))
         trenutni = self
         q = [self]
-        while not (isinstance(trenutni, ZK.IDN) or len(q) > 0):
+        while (not isinstance(trenutni, ZK.IDN)) and (len(q) > 0):
             trenutni = q.pop(0)
             for child in trenutni.children:
                 q.append(child)
@@ -99,7 +99,7 @@ class postfiks_izraz(GS.Cvor):
 
             dhv = self.dohvati_idn()
             if dhv is not None:
-                self.oblik = pomocne.nadi_oblik(dhv)
+                self.oblik = pomocne.nadi_oblik(self, dhv)
                     
                     
 
@@ -113,8 +113,9 @@ class postfiks_izraz(GS.Cvor):
 
                 #ovo je indeksiranje, oblik tipa a[2]
                 c1.izvedi_svojstva()
-                if c1.oblik != 'niz':
-                    pomocne.izlaz(self)
+
+                #if c1.oblik != 'niz':
+                 #   pomocne.izlaz(self)
 
                 if c1.tip.startswith('niz'): #trebamo se jos dogovorit kako tip odredit, ugl ovo mora provjeravat je li c1 dopušteni niz
                     # niz tipa niz(niz(int)) nije dopušten!
@@ -136,8 +137,8 @@ class postfiks_izraz(GS.Cvor):
                 #ovo je za poziv funckije s argumentima!
 
                 c1.izvedi_svojstva()
-                if c1.oblik != 'funkcija':
-                    pomocne.izlaz(self)
+                #if c1.oblik != 'funkcija':
+                #    pomocne.izlaz(self)
 
                 c3.izvedi_svojstva()
 
@@ -164,8 +165,8 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1,postfiks_izraz) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, ZK.D_ZAGRADA):
 
                 c1.izvedi_svojstva()
-                if c1.oblik != 'funkcija':
-                    pomocne.izlaz(self)
+                #if c1.oblik != 'funkcija':
+                #    pomocne.izlaz(self)
 
                 self.tip = c1.tip
                 self.oblik = c1.oblik
@@ -182,8 +183,8 @@ class postfiks_izraz(GS.Cvor):
 
             if isinstance(c1, postfiks_izraz) and (isinstance(c2,ZK.OP_INC) or isinstance(c2,ZK.OP_DEC)):
                 c1.izvedi_svojstva()
-                if c1.oblik == 'funkcija':
-                    pomocne.izlaz(self)
+                #if c1.oblik == 'funkcija':
+                #    pomocne.izlaz(self)
 
                 if c1.lizraz == 0 or c1.tip != 'int':
                     pomocne.izlaz(self)
@@ -1412,13 +1413,13 @@ class init_deklarator(GS.Cvor):
 
                 #nemam snage za provjerit 3 jbg
                 tip = c1.tip
-                print(c3.children)
-                if tip in ['int','char','const(int)','const(char)']:
+                if tip in ['char', 'int', 'const(int)', 'const(char)']:
                     if tip.startswith('const'):
                         tip = tip[6 : len(tip) - 1]
                     
                     if c3.tip != tip:
                         pomocne.izlaz(self)
+
                 elif tip.startswith('niz'):
 
                     tip = tip[4 : len(tip) - 1]
@@ -1432,8 +1433,6 @@ class init_deklarator(GS.Cvor):
                     for t in c3.tipovi:
                         if t != tip:
                             pomocne.izlaz(self)
-                else:
-                    pomocne.izlaz(self)
 
             else:
                 pomocne.izlaz(self)
@@ -1463,7 +1462,6 @@ class izravni_deklarator(GS.Cvor):
                 
                 if self.ntip == 'void':
                     pomocne.izlaz(self)
-                    
 
                 uvjet = pomocne.provjeri_identifikator_lokalno(self, c1.ime)
                 c1.tip = self.ntip
@@ -1525,7 +1523,7 @@ class izravni_deklarator(GS.Cvor):
                 
             
             elif isinstance(c1, ZK.IDN) and isinstance(c2, ZK.L_ZAGRADA) and \
-                isinstance(c3, lista_parametara) and isinstance(c4, ZK.D_ZAGRADA):
+                isinstance(c3, lista_parametara) and isinstance(c3, ZK.D_ZAGRADA):
 
                 c3.izvedi_svojstva()
 
