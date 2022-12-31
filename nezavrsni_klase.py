@@ -26,10 +26,12 @@ class primarni_izraz(GS.Cvor):
                 self.lizraz = 0
 
             elif isinstance(child, ZK.ZNAK):
+                #child.izvedi_svojstva()
                 self.tip = 'char'
                 self.lizraz = 0
             
             elif isinstance(child, ZK.NIZ_ZNAKOVA):
+                child.izvedi_svojstva()
                 self.tip = 'niz(const(char))'
                 self.lizraz = 0
             

@@ -1,5 +1,5 @@
 import GenerativnoStablo as GS
-
+import pomocne_funkcije as pomocne
 class IDN(GS.Cvor):
     def __init__(self, value, vr, dubina = 0, parent = None):
         GS.Cvor.__init__(self, value, dubina, parent)
@@ -9,7 +9,7 @@ class IDN(GS.Cvor):
     
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + self.ime
-    
+
 class BROJ(GS.Cvor):
     najmanja_vrijednost = - (2 ** 31) 
     najveca_vrijednost = 2 ** 31 - 1
@@ -21,7 +21,7 @@ class BROJ(GS.Cvor):
 
         if self.vrijednost < self.najmanja_vrijednost and self.vrijednost > self.najveca_vrijednost:
 
-            pass
+            pomocne.izlaz(self.parent)
 
     def __str__(self):
         return self.dubina*" " + self.value + " -> " + str(self.vrijednost)
@@ -40,7 +40,7 @@ class ZNAK(GS.Cvor):
             definirani = "tn0'\"\\"
 
             if drugi_znak not in definirani:
-                pass
+                pomocne.izlaz(self.parent)
         
 
     def __str__(self):
@@ -53,19 +53,19 @@ class NIZ_ZNAKOVA(GS.Cvor):
         self.tip = "niz(const(char))"
 
     def izvedi_svojstva(self):
-
         niz = self.vrijednost
-        definirani = "tn0'\"\\"
+        definirani = "tn0\'\"\\"
+        
 
-
+        if niz[0] != '"' and niz[-1] != '"':
+            pomocne.izlaz(self.parent)
         for i in range(len(niz)-1):
             if niz[i] == '\\':
-
                 if niz[i+1] not in definirani:
-                    pass
+                    pomocne.izlaz(self.parent)
 
-        if niz[-1] != '\x00':
-            pass
+
+
 
 
 
