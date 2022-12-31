@@ -245,3 +245,26 @@ def varijabla_je(cvor, idnn):
         return True
     else:
         return False
+
+def nadi_pomocne(scor, idnn):
+    idn = idnn.ime
+    id_bloka = GS.Cvor.tablice[scor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    if idn in blok_cvor.tablica_lokalnih_varijabli.keys():
+        if isinstance(blok_cvor.tablica_lokalnih_varijabli[idn], D.varijabla):
+            return 'var'
+        else :
+            return 'niz'
+
+    elif idn in blok_cvor.nasljedena_tablica_varijabli.keys():
+        if isinstance(blok_cvor.nasljedna_tablica_varijabli[idn], D.varijabla):
+            return 'var'
+        else :
+            return 'niz'
+
+    elif idn in blok_cvor.tablica_lokalnih_funkcija.keys():
+        return 'funkcija'
+    elif idn in blok_cvor.nasljedena_tablica_funkcija.keys():
+        return 'funkcija'
+    else:
+        return None

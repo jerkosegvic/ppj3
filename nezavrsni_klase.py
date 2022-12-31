@@ -58,8 +58,9 @@ class postfiks_izraz(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.tip = None
         self.lizraz = None
+        self.oblik = None
 
-    def dohvati_idn(self):
+    def dohvati_idn2(self):
         if len(self.children) == 1:
             c1 = self.children[0]
 
@@ -69,6 +70,19 @@ class postfiks_izraz(GS.Cvor):
                     return c1.children[0]
         
         return None
+
+    def dohvati_idn(self):
+        #print("dohvacam idn za postfiks izraz ", str(self))
+        trenutni = self
+        q = [self]
+        while not (isinstance(trenutni, ZK.IDN) or len(q) > 0):
+            trenutni = q.pop(0)
+            for child in trenutni.children:
+                q.append(child)
+        if not isinstance(trenutni, ZK.IDN):
+            return None
+        return trenutni
+
 
     def izvedi_svojstva(self):
         if len(self.children) == 1:
@@ -81,6 +95,12 @@ class postfiks_izraz(GS.Cvor):
             else:
                 pomocne.izlaz(self)
 
+            dhv = self.dohvati_idn()
+            if dhv is not None:
+                self.oblik = pomocne.nadi_oblik(dhv)
+                    
+                    
+
         elif len(self.children) == 4: 
             c1 = self.children[0]
             c2 = self.children[1]
@@ -91,11 +111,14 @@ class postfiks_izraz(GS.Cvor):
 
                 #ovo je indeksiranje, oblik tipa a[2]
                 c1.izvedi_svojstva()
+                if c1.oblik != 'niz':
+                    pomocne.izlaz(self)
 
                 if c1.tip.startswith('niz'): #trebamo se jos dogovorit kako tip odredit, ugl ovo mora provjeravat je li c1 dopušteni niz
                     # niz tipa niz(niz(int)) nije dopušten!
                     tip = c1.tip[4:len(c1.tip)-1]
                     self.tip = tip
+                    self.oblik = c1.oblik
                     # osiguraj samo jedan niz
                     if tip.startswith('const'):
                         self.lizraz = 0
@@ -111,6 +134,9 @@ class postfiks_izraz(GS.Cvor):
                 #ovo je za poziv funckije s argumentima!
 
                 c1.izvedi_svojstva()
+                if c1.oblik != 'funkcija':
+                    pomocne.izlaz(self)
+
                 c3.izvedi_svojstva()
 
                 parametri = c1.parm_tip
@@ -122,6 +148,7 @@ class postfiks_izraz(GS.Cvor):
                     pomocne.izlaz(self)
 
                 self.tip = c1.pov
+                self.oblik = c1.oblik
                 self.lizraz = 0
             else:
                 pomocne.izlaz(self)
@@ -135,8 +162,11 @@ class postfiks_izraz(GS.Cvor):
             if isinstance(c1,postfiks_izraz) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, ZK.D_ZAGRADA):
 
                 c1.izvedi_svojstva()
-                self.tip = c1.tip
+                if c1.oblik != 'funkcija':
+                    pomocne.izlaz(self)
 
+                self.tip = c1.tip
+                self.oblik = c1.oblik
                 uvjet = pomocne.provjeri_valjanost_argumenata_postfiks(c1, None)
 
                 if not uvjet:
@@ -150,6 +180,8 @@ class postfiks_izraz(GS.Cvor):
 
             if isinstance(c1, postfiks_izraz) and (isinstance(c2,ZK.OP_INC) or isinstance(c2,ZK.OP_DEC)):
                 c1.izvedi_svojstva()
+                if c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
 
                 if c1.lizraz == 0 or c1.tip != 'int':
                     pomocne.izlaz(self)
@@ -280,8 +312,8 @@ class cast_izraz(GS.Cvor):
                 c4.izvedi_svojstva()
                 idn = c4.nadi_postfiks().dohvati_idn()
                 #print(self, " => ", idn)
-                uvjet = pomocne.varijabla_je(self, idn) and pomocne.provjeri_cast(c2.tip, c4.tip)
-
+                uvjet =  pomocne.provjeri_cast(c2.tip, c4.tip)
+                "pomocne.varijabla_je(self, idn) and"
                 if not uvjet:
                     pomocne.izlaz(self)
 

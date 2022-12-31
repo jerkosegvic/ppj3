@@ -268,3 +268,4 @@ for line in lines:
 #GS.Cvor.korijen.print_tree()
 GS.Cvor.korijen.izvedi_svojstva()
 #PS.Cvor.korijen.print_tree()
+
