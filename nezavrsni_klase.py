@@ -81,6 +81,7 @@ class postfiks_izraz(GS.Cvor):
             trenutni = q.pop(0)
             for child in trenutni.children:
                 q.append(child)
+            #print("trenutni mi je ", trenutni)
         if not isinstance(trenutni, ZK.IDN):
             return None
         return trenutni
@@ -99,6 +100,7 @@ class postfiks_izraz(GS.Cvor):
 
             dhv = self.dohvati_idn()
             if dhv is not None:
+                #print("za cvor ", self, "dohvacen idn ", dhv.ime)
                 self.oblik = pomocne.nadi_oblik(self, dhv)
                     
                     
@@ -245,6 +247,7 @@ class unarni_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
         
@@ -259,6 +262,7 @@ class unarni_izraz(GS.Cvor):
                     pomocne.izlaz(self) #moramo se dogovorit oko errora, najbolje da tu odma izhendlamo kraj
 
                 self.tip = 'int' #moze i c2.tip
+                self.oblik = c2.oblik
                 self.lizraz = 0
 
             elif isinstance(c1, unarni_operator) and isinstance(c2, cast_izraz):
@@ -268,6 +272,7 @@ class unarni_izraz(GS.Cvor):
                     pomocne.izlaz(self)
 
                 self.tip = 'int'
+                self.oblik = c2.oblik
                 self.lizraz = 0
             else:
                 pomocne.izlaz(self)
@@ -301,6 +306,7 @@ class cast_izraz(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.tip = c1.tip
                 self.lizraz = c1.lizraz
+                self.oblik = c1.oblik
             else:
                 pomocne.izlaz(self)
 
@@ -317,10 +323,11 @@ class cast_izraz(GS.Cvor):
                 #print(self, " => ", idn)
                 uvjet =  pomocne.provjeri_cast(c2.tip, c4.tip)
                 "pomocne.varijabla_je(self, idn) and"
-                if not uvjet:
+                if not uvjet or c4.oblik == 'niz' or c4.oblik == 'funkcija':
                     pomocne.izlaz(self)
-
+                
                 self.tip = c2.tip
+                self.oblik = c4.oblik
                 self.lizraz = 0
             else:
                 pomocne.izlaz(self)

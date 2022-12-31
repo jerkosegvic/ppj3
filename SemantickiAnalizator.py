@@ -266,9 +266,10 @@ for line in lines:
 
     #print(trenutni)
     
-#GS.Cvor.korijen.print_tree()
+
 #PS.Cvor.korijen.print_tree()
 GS.Cvor.korijen.izvedi_svojstva()
+#GS.Cvor.korijen.print_tree()
 pomocne.provjeri_main()
 pomocne.provjeri_definicije()
 
