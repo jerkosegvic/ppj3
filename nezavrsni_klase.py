@@ -25,6 +25,7 @@ class primarni_izraz(GS.Cvor):
             elif isinstance(child, ZK.BROJ):
                 self.tip = 'int'
                 self.lizraz = 0
+                child.izvedi_svojstva()
 
             elif isinstance(child, ZK.ZNAK):
                 #child.izvedi_svojstva()

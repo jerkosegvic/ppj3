@@ -18,8 +18,11 @@ class BROJ(GS.Cvor):
         self.vrijednost = vr
 
     def izvedi_svojstva(self):
-
-        if self.vrijednost < self.najmanja_vrijednost and self.vrijednost > self.najveca_vrijednost:
+        for c in self.vrijednost:
+            if c not in '0123456789':
+                pomocne.izlaz(self.parent)
+        vr = int(self.vrijednost)
+        if vr < self.najmanja_vrijednost or vr > self.najveca_vrijednost:
 
             pomocne.izlaz(self.parent)
 
