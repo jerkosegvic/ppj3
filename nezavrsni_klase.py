@@ -327,6 +327,7 @@ class cast_izraz(GS.Cvor):
                 c4.izvedi_svojstva()
                 idn = c4.nadi_postfiks().dohvati_idn()
                 #print(self, " => ", idn)
+            
                 uvjet =  pomocne.provjeri_cast(c2.tip, c4.tip)
                 "pomocne.varijabla_je(self, idn) and"
                 if not uvjet or c4.oblik == 'niz' or c4.oblik == 'funkcija':
@@ -364,7 +365,7 @@ class ime_tipa(GS.Cvor):
                 if c2.tip == 'void':
                     pomocne.izlaz(self)
 
-                self.tip = c2.tip
+                self.tip = 'const(' + c2.tip + ')'
             else:
                 pomocne.izlaz(self)
         else:
@@ -1075,6 +1076,10 @@ class naredba_petlje(GS.Cvor):
 
                c3.izvedi_svojstva()
                c4.izvedi_svojstva()
+               #print(c4.tip)
+               #ovdje je greska sto gleda funkcije i varijable jednako
+               #oblik se ne propagira do ovdje pa to treba pogledat
+
 
                if c4.tip != 'int':
                     pomocne.izlaz(self)
@@ -1454,7 +1459,6 @@ class init_deklarator(GS.Cvor):
                 c1.izvedi_svojstva()
                 self.oblik = c1.oblik
                 
-
                 if c1.tip.startswith('const') or c1.tip.startswith('niz(const'):
                     pomocne.izlaz(self)
             else:
@@ -1479,7 +1483,7 @@ class init_deklarator(GS.Cvor):
                     if tip.startswith('const'):
                         tip = tip[6 : len(tip) - 1]
                     
-                    if c3.tip != tip:
+                    if c3.tip != tip and tip != 'char':
                         pomocne.izlaz(self)
 
                 elif tip.startswith('niz'):

@@ -97,6 +97,12 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
 
 def provjeri_cast(tip1, tip2):
     #print("tipovi su " + tip1 + " i " + tip2)
+    if tip1.startswith('const'):
+        tip1 = tip1[6 : len(tip1) - 1]
+    if tip2.startswith('const'):
+        tip2 = tip2[6 : len(tip2) - 1]
+
+
     if tip2 != "int" and tip2 != "char":
         return False
     if tip1 == "int" or tip1 == "char":
@@ -132,7 +138,8 @@ def tip_funkcije(cvor, trazeni_tip):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     if blok_cvor.tip == "funkcija":
-        if blok_cvor.return_tip == trazeni_tip:
+        #print(blok_cvor.return_tip)
+        if blok_cvor.return_tip == trazeni_tip or blok_cvor.return_tip == 'int':
             return True
         else:
             return False
