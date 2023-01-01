@@ -151,7 +151,7 @@ class postfiks_izraz(GS.Cvor):
 
                 valjano = pomocne.provjeri_valjanost_argumenata_postfiks(c1,argumetni)
 
-                if not valjano:              
+                if not valjano:         
                     pomocne.izlaz(self)
 
                 self.tip = c1.tip

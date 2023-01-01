@@ -84,8 +84,11 @@ def provjeri_valjanost_argumenata_postfiks(cvor, argumenti):
                     elif dek.parametri == None or argumenti == None:
                         return False
                     if len(dek.parametri) == len(argumenti):
+                        
                         for i in range(len(dek.parametri)):
-                            if dek.parametri[i].tip != argumenti[i]:
+                            if dek.parametri[i].tip != argumenti[i] and argumenti[i] != 'char':
+                                #print(dek.parametri[i].tip)
+                                #print(argumenti[i])
                                 return False
                         return True
                     else:
