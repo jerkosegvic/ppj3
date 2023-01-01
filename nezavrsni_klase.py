@@ -976,7 +976,7 @@ class naredba_grananja(GS.Cvor):
 
                 c3.izvedi_svojstva()
 
-                if c3.tip != 'int':
+                if c3.tip != 'int' or c3.oblik == 'funkcija':
                     pomocne.izlaz(self)
 
                 c5.izvedi_svojstva()
@@ -993,12 +993,14 @@ class naredba_grananja(GS.Cvor):
             c5 = self.children[4]
             c6 = self.children[4]
             c7 = self.children[4]
-
+            
+            
+           
             if isinstance(c1, ZK.KR_IF) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz) \
-                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba) and isinstance(c6, ZK.KR_ELSE) and isinstance(c7, naredba):
-
+                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba) and isinstance(1, int) and isinstance(c7, naredba):
                 c3.izvedi_svojstva()
-
+                #print(c3.oblik)
+                #tu je greska sta main shvati ko varijablu, nema oblik
                 if c3.tip != 'int':
                     pomocne.izlaz(self)
 
