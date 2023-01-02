@@ -1289,6 +1289,7 @@ class definicija_funkcije(GS.Cvor):
                 else:
                     tipovi_tuplovi = list(zip(c4.tipovi, c4.imena))
                     pomocne.dodaj_lokalnu_funkciju(self, c2.ime, c1.tip, True, tipovi_tuplovi)
+                    #print(tipovi_tuplovi)
                     pomocne.dodaj_argumente(c6, tipovi_tuplovi)
 
                 c6.izvedi_svojstva()
@@ -1373,10 +1374,9 @@ class deklaracija_parametra(GS.Cvor):
             c4 = self.children[3]
 
             if isinstance(c1, ime_tipa) and isinstance(c2, ZK.IDN) \
-                and isinstance(c3, ZK.D_UGL_ZAGRADA) and isinstance(c4, ZK.L_UGL_ZAGRADA):
+                and isinstance(c3, ZK.L_UGL_ZAGRADA) and isinstance(c4, ZK.D_UGL_ZAGRADA):
 
                 c1.izvedi_svojstva()
-
                 if c1.tip == 'void':
                     pomocne.izlaz(self)
 
