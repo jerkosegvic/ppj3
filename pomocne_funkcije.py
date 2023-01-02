@@ -196,7 +196,11 @@ def dodaj_argumente(cvor, argumenti):
     id_bloka = GS.Cvor.tablice[cvor.id]
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     for arg in argumenti:
-        blok_cvor.dodaj_lokalnu_varijablu(arg[1], arg[0])
+        if arg[0].startswith('niz'):
+            arg[0] = arg[0][4 : len(arg[0]) - 1]
+            blok_cvor.dodaj_lokalni_niz(arg[1], arg[0], -1)
+        else:
+            blok_cvor.dodaj_lokalnu_varijablu(arg[1], arg[0])
 
 def provjeri_identifikator_lokalno(cvor, ime):
     id_bloka = GS.Cvor.tablice[cvor.id]

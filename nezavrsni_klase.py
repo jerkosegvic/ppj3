@@ -1367,7 +1367,7 @@ class deklaracija_parametra(GS.Cvor):
                 if c1.tip == 'void':
                     pomocne.izlaz(self)
 
-                self.tip = c1.tip
+                self.tip = 'niz(' + c1.tip + ')'
                 self.ime = c2.ime
                 self.oblik = 'niz'
             else:
