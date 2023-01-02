@@ -779,7 +779,20 @@ class izraz_pridruzivanja(GS.Cvor):
         self.duljina = 10
 
     def postaje_niz_znakova(self):
-        return False
+        return self.tip == 'char' and self.oblik == 'niz'
+
+    def dohvati_NIZ_ZNAKOVA(self):
+        #print("dohvacam idn za postfiks izraz ", str(self))
+        trenutni = self
+        q = [self]
+        while (not isinstance(trenutni, ZK.NIZ_ZNAKOVA)) and (len(q) > 0):
+            trenutni = q.pop(0)
+            for child in trenutni.children:
+                q.append(child)
+            #print("trenutni mi je ", trenutni)
+        if not isinstance(trenutni, ZK.NIZ_ZNAKOVA):
+            return None
+        return trenutni
 
     def izvedi_svojstva(self):
 
@@ -1659,14 +1672,14 @@ class inicijalizator(GS.Cvor):
             c1 = self.children[0]
 
             if isinstance(c1, izraz_pridruzivanja):
-
+                c1.izvedi_svojstva()
                 if c1.postaje_niz_znakova():
-
+                    
                     self.broj_elemenata = c1.duljina + 1
                     self.tipovi = ['char' for _ in range(self.broj_elemenata)]
                 else:
 
-                    c1.izvedi_svojstva()
+                    
                     self.tip = c1.tip
                     self.oblik = c1.oblik
             else:

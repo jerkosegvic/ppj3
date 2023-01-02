@@ -356,3 +356,4 @@ def provjeri_definicije():
         if funkcije[ime] == 0:
             print('funkcija')
             exit(0)
+
