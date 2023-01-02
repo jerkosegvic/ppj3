@@ -197,8 +197,9 @@ def dodaj_argumente(cvor, argumenti):
     blok_cvor = PS.Cvor.cvorovi[id_bloka]
     for arg in argumenti:
         if arg[0].startswith('niz'):
-            arg[0] = arg[0][4 : len(arg[0]) - 1]
-            blok_cvor.dodaj_lokalni_niz(arg[1], arg[0], -1)
+            #print(arg[0])
+            novo = arg[0][4 : len(arg[0]) - 1]
+            blok_cvor.dodaj_lokalni_niz(arg[1], novo, -1)
         else:
             blok_cvor.dodaj_lokalnu_varijablu(arg[1], arg[0])
 
