@@ -779,6 +779,8 @@ class izraz_pridruzivanja(GS.Cvor):
         self.duljina = 10
 
     def postaje_niz_znakova(self):
+        if self.tip == 'char' and self.oblik == 'niz':
+            return True
         return False
 
     def izvedi_svojstva(self):
@@ -1525,8 +1527,8 @@ class init_deklarator(GS.Cvor):
                     if tip.startswith('const'):
                         tip = tip[6 : len(tip) - 1]
 
-                    #if c3.broj_elemenata > c1.broj_elemenata:
-                    #    pomocne.izlaz(self)
+                    if c3.broj_elemenata > c1.broj_elemenata:
+                        pomocne.izlaz(self)
 
                     for t in c3.tipovi:
                         if t != tip:
@@ -1596,6 +1598,7 @@ class izravni_deklarator(GS.Cvor):
                 if int(c3.vrijednost) <= 0 or int(c3.vrijednost) > 1024:
                     pomocne.izlaz(self)
 
+                self.broj_elemenata = int(c3.vrijednost)
                 pomocne.dodaj_lokalni_niz(self, c1.ime, self.ntip, int(c3.vrijednost))
                 self.oblik = 'niz'
 
