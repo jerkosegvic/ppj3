@@ -21,46 +21,46 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
     novi = None
     value_list = fullvalue.split(' ')
     value = value_list[0]
-    match value:
-        case "<primarni_izraz>":
+    if True:
+        if value == "<primarni_izraz>":
             novi = NK.primarni_izraz(value, dubina, parent)
-        case "<postfiks_izraz>":
+        elif value == "<postfiks_izraz>":
             novi = NK.postfiks_izraz(value, dubina, parent)
-        case "<lista_argumenata>":
+        elif value == "<lista_argumenata>":
             novi = NK.lista_argumenata(value, dubina, parent)
-        case "<unarni_izraz>":
+        elif value == "<unarni_izraz>":
             novi = NK.unarni_izraz(value, dubina, parent)
-        case "<unarni_operator>":
+        elif value == "<unarni_operator>":
             novi = NK.unarni_operator(value, dubina, parent)
-        case "<cast_izraz>":
+        elif value == "<cast_izraz>":
             novi = NK.cast_izraz(value, dubina, parent)
-        case "<ime_tipa>":
+        elif value == "<ime_tipa>":
             novi = NK.ime_tipa(value, dubina, parent)
-        case "<specifikator_tipa>":
+        elif value == "<specifikator_tipa>":
             novi = NK.specifikator_tipa(value, dubina, parent)
-        case "<multiplikativni_izraz>":
+        elif value == "<multiplikativni_izraz>":
             novi = NK.multiplikativni_izraz(value, dubina, parent)
-        case "<aditivni_izraz>":
+        elif value == "<aditivni_izraz>":
             novi = NK.aditivni_izraz(value, dubina, parent)
-        case "<odnosni_izraz>":
+        elif value == "<odnosni_izraz>":
             novi = NK.odnosni_izraz(value, dubina, parent)
-        case "<jednakosni_izraz>":
+        elif value == "<jednakosni_izraz>":
             novi = NK.jednakosni_izraz(value, dubina, parent)
-        case "<bin_i_izraz>":
+        elif value == "<bin_i_izraz>":
             novi = NK.bin_i_izraz(value, dubina, parent)
-        case "<bin_xili_izraz>":
+        elif value == "<bin_xili_izraz>":
             novi = NK.bin_xili_izraz(value, dubina, parent)
-        case "<bin_ili_izraz>":
+        elif value == "<bin_ili_izraz>":
             novi = NK.bin_ili_izraz(value, dubina, parent)
-        case "<log_i_izraz>":
+        elif value == "<log_i_izraz>":
             novi = NK.log_i_izraz(value, dubina, parent)
-        case "<log_ili_izraz>":
+        elif value == "<log_ili_izraz>":
             novi = NK.log_ili_izraz(value, dubina, parent)
-        case "<izraz_pridruzivanja>":
+        elif value == "<izraz_pridruzivanja>":
             novi = NK.izraz_pridruzivanja(value, dubina, parent)
-        case "<izraz>":
+        elif value == "<izraz>":
             novi = NK.izraz(value, dubina, parent)
-        case "<slozena_naredba>":
+        elif value == "<slozena_naredba>":
             global trenutni_blok
             global dubina_bloka
             novi = NK.slozena_naredba(value, dubina, parent)
@@ -89,134 +89,134 @@ def novi_cvor(fullvalue, dubina = 0, parent = None):
             #print("mijenjam neki kurac1")
             #print(trenutni)
             #print(trenutni_blok)
-        case "<lista_naredbi>":
+        elif value == "<lista_naredbi>":
             novi = NK.lista_naredbi(value, dubina, parent)
-        case "<naredba>":
+        elif value == "<naredba>":
             novi = NK.naredba(value, dubina, parent)
-        case "<izraz_naredba>":
+        elif value == "<izraz_naredba>":
             novi = NK.izraz_naredba(value, dubina, parent)
-        case "<naredba_grananja>":
+        elif value == "<naredba_grananja>":
             novi = NK.naredba_grananja(value, dubina, parent)
-        case "<naredba_petlje>":
+        elif value == "<naredba_petlje>":
             novi = NK.naredba_petlje(value, dubina, parent)
-        case "<naredba_skoka>":
+        elif value == "<naredba_skoka>":
             novi = NK.naredba_skoka(value, dubina, parent)
-        case "<prijevodna_jedinica>":
+        elif value == "<prijevodna_jedinica>":
             novi = NK.prijevodna_jedinica(value, dubina, parent)
-        case "<vanjska_deklaracija>":
+        elif value == "<vanjska_deklaracija>":
             novi = NK.vanjska_deklaracija(value, dubina, parent)
-        case "<definicija_funkcije>":
+        elif value == "<definicija_funkcije>":
             novi = NK.definicija_funkcije(value, dubina, parent)
-        case "<lista_parametara>":
+        elif value == "<lista_parametara>":
             novi = NK.lista_parametara(value, dubina, parent)
-        case "<deklaracija_parametra>":
+        elif value == "<deklaracija_parametra>":
             novi = NK.deklaracija_parametra(value, dubina, parent)
-        case "<lista_deklaracija>":
+        elif value == "<lista_deklaracija>":
             novi = NK.lista_deklaracija(value, dubina, parent)
-        case "<deklaracija>":
+        elif value == "<deklaracija>":
             novi = NK.deklaracija(value, dubina, parent)
-        case "<lista_init_deklaratora>":
+        elif value == "<lista_init_deklaratora>":
             novi = NK.lista_init_deklaratora(value, dubina, parent)
-        case "<init_deklarator>":
+        elif value == "<init_deklarator>":
             novi = NK.init_deklarator(value, dubina, parent)
-        case "<izravni_deklarator>":
+        elif value == "<izravni_deklarator>":
             novi = NK.izravni_deklarator(value, dubina, parent)
-        case "<inicijalizator>":
+        elif value == "<inicijalizator>":
             novi = NK.inicijalizator(value, dubina, parent)
-        case "<lista_izraza_pridruzivanja>":
+        elif value == "<lista_izraza_pridruzivanja>":
             novi = NK.lista_izraza_pridruzivanja(value, dubina, parent)
-        case "IDN":
+        elif value == "IDN":
             novi = ZK.IDN(value, value_list[2], dubina, parent)
-        case "BROJ":
+        elif value == "BROJ":
             novi = ZK.BROJ(value, value_list[2], dubina, parent)
-        case "ZNAK":
+        elif value == "ZNAK":
             novi = ZK.ZNAK(value, value_list[2], dubina, parent)
-        case "NIZ_ZNAKOVA":
+        elif value == "NIZ_ZNAKOVA":
             novi = ZK.NIZ_ZNAKOVA(value, value_list[2], dubina, parent)
-        case "KR_BREAK":
+        elif value == "KR_BREAK":
             novi = ZK.KR_BREAK(value, dubina, parent)
-        case "KR_CONTINUE":
+        elif value == "KR_CONTINUE":
             novi = ZK.KR_CONTINUE(value, dubina, parent)
-        case "KR_RETURN":
+        elif value == "KR_RETURN":
             novi = ZK.KR_RETURN(value, dubina, parent)
-        case "KR_IF":
+        elif value == "KR_IF":
             novi = ZK.KR_IF(value, dubina, parent)
-        case "KR_ELSE":
+        elif value == "KR_ELSE":
             novi = ZK.KR_ELSE(value, dubina, parent)
-        case "KR_WHILE":
+        elif value == "KR_WHILE":
             novi = ZK.KR_WHILE(value, dubina, parent)
-        case "KR_FOR":
+        elif value == "KR_FOR":
             novi = ZK.KR_FOR(value, dubina, parent)
-        case "KR_DO":
+        elif value == "KR_DO":
             novi = ZK.KR_DO(value, dubina, parent)
-        case "KR_INT":
+        elif value == "KR_INT":
             novi = ZK.KR_INT(value, dubina, parent)
-        case "KR_CHAR":
+        elif value == "KR_CHAR":
             novi = ZK.KR_CHAR(value, dubina, parent)
-        case "KR_VOID":
+        elif value == "KR_VOID":
             novi = ZK.KR_VOID(value, dubina, parent)
-        #define cases for all classes from zavrsni_klase.py
-        case "KR_CONST":
+        #define elif value ==s for all classes from zavrsni_klase.py
+        elif value == "KR_CONST":
             novi = ZK.KR_CONST(value, dubina, parent)
-        case "PLUS":
+        elif value == "PLUS":
             novi = ZK.PLUS(value, dubina, parent)
-        case "MINUS":
+        elif value == "MINUS":
             novi = ZK.MINUS(value, dubina, parent)
-        case "OP_INC":
+        elif value == "OP_INC":
             novi = ZK.OP_INC(value, dubina, parent)
-        case "OP_DEC":
+        elif value == "OP_DEC":
             novi = ZK.OP_DEC(value, dubina, parent)
-        case "OP_PUTA":
+        elif value == "OP_PUTA":
             novi = ZK.OP_PUTA(value, dubina, parent)
-        case "OP_DIJELI":
+        elif value == "OP_DIJELI":
             novi = ZK.OP_DIJELI(value, dubina, parent)
-        case "OP_MOD":
+        elif value == "OP_MOD":
             novi = ZK.OP_MOD(value, dubina, parent)
-        case "OP_NEG":
+        elif value == "OP_NEG":
             novi = ZK.OP_NEG(value, dubina, parent)
-        case "OP_TILDA":
+        elif value == "OP_TILDA":
             novi = ZK.OP_TILDA(value, dubina, parent)
-        case "OP_PRIDRUZI":
+        elif value == "OP_PRIDRUZI":
             novi = ZK.OP_PRIDRUZI(value, dubina, parent)
-        case "OP_LT":
+        elif value == "OP_LT":
             novi = ZK.OP_LT(value, dubina, parent)
-        case "OP_GT":
+        elif value == "OP_GT":
             novi = ZK.OP_GT(value, dubina, parent)
-        case "OP_LTE":
+        elif value == "OP_LTE":
             novi = ZK.OP_LTE(value, dubina, parent)
-        case "OP_GTE":
+        elif value == "OP_GTE":
             novi = ZK.OP_GTE(value, dubina, parent)
-        case "OP_EQ":
+        elif value == "OP_EQ":
             novi = ZK.OP_EQ(value, dubina, parent)
-        case "OP_NEQ":
+        elif value == "OP_NEQ":
             novi = ZK.OP_NEQ(value, dubina, parent)
-        case "OP_I":
+        elif value == "OP_I":
             novi = ZK.OP_I(value, dubina, parent)
-        case "OP_ILI":
+        elif value == "OP_ILI":
             novi = ZK.OP_ILI(value, dubina, parent)
-        case "OP_BIN_I":
+        elif value == "OP_BIN_I":
             novi = ZK.OP_BIN_I(value, dubina, parent)
-        case "OP_BIN_ILI":
+        elif value == "OP_BIN_ILI":
             novi = ZK.OP_BIN_ILI(value, dubina, parent)
-        case "OP_BIN_XILI":
+        elif value == "OP_BIN_XILI":
             novi = ZK.OP_BIN_XILI(value, dubina, parent)
-        case "ZAREZ":
+        elif value == "ZAREZ":
             novi = ZK.ZAREZ(value, dubina, parent)
-        case "TOCKAZAREZ":
+        elif value == "TOCKAZAREZ":
             novi = ZK.TOCKAZAREZ(value, dubina, parent)
-        case "L_ZAGRADA":
+        elif value == "L_ZAGRADA":
             novi = ZK.L_ZAGRADA(value, dubina, parent)
-        case "D_ZAGRADA":
+        elif value == "D_ZAGRADA":
             novi = ZK.D_ZAGRADA(value, dubina, parent)
-        case "L_VIT_ZAGRADA":
+        elif value == "L_VIT_ZAGRADA":
             novi = ZK.L_VIT_ZAGRADA(value, dubina, parent)
-        case "D_VIT_ZAGRADA":
+        elif value == "D_VIT_ZAGRADA":
             novi = ZK.D_VIT_ZAGRADA(value, dubina, parent)
-        case "L_UGL_ZAGRADA":
+        elif value == "L_UGL_ZAGRADA":
             novi = ZK.L_UGL_ZAGRADA(value, dubina, parent)
-        case "D_UGL_ZAGRADA":
+        elif value == "D_UGL_ZAGRADA":
             novi = ZK.D_UGL_ZAGRADA(value, dubina, parent)
-#        case _ :
+#        elif value == _ :
 #            novi = GS.Cvor(value, dubina, parent)
     if len(value_list) == 3:
         novi.dodaj_za_zavrsni(value_list[1], value_list[2])
