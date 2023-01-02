@@ -197,6 +197,8 @@ def provjeri_deklaraciju_i_tipove(cvor, ime, tip, parametri = None):
         if dek.tip == tip:
             if parametri == None and dek.parametri == None:
                 return True
+            elif parametri == None or dek.parametri == None:
+                return False
             if len(dek.parametri) == len(parametri):
                 for i in range(len(dek.parametri)):
                     if dek.parametri[i].tip != parametri[i]:

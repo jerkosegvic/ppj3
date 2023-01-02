@@ -12,6 +12,7 @@ class primarni_izraz(GS.Cvor):
         self.lizraz = None
     
     def izvedi_svojstva(self):
+        self.oblik = None
         if len(self.children) == 1:
             child = self.children[0]
 
@@ -48,6 +49,7 @@ class primarni_izraz(GS.Cvor):
             if isinstance(c1, ZK.L_ZAGRADA) and isinstance(c2, izraz) and isinstance(c3, ZK.D_ZAGRADA):
                 c2.izvedi_svojstva() # trebamo još vidjet što znači provjeri, pretpostavljam da to osigurava da svojstva postoje
 
+                self.oblik = c2.oblik
                 self.tip = c2.tip
                 self.lizraz = c2.lizraz
             else:
@@ -99,11 +101,11 @@ class postfiks_izraz(GS.Cvor):
                 self.lizraz = child.lizraz
             else:
                 pomocne.izlaz(self)
-
-            dhv = self.dohvati_idn()
-            if dhv is not None:
-                #print("za cvor ", self, "dohvacen idn ", dhv.ime)
-                self.oblik = pomocne.nadi_oblik(self, dhv)
+            if child.oblik == None:
+                dhv = self.dohvati_idn()
+                if dhv is not None:
+                    #print("za cvor ", self, "dohvacen idn ", dhv.ime)
+                    self.oblik = pomocne.nadi_oblik(self, dhv)
                     
                     
 
@@ -142,7 +144,9 @@ class postfiks_izraz(GS.Cvor):
 
                 c1.izvedi_svojstva()
                 if c1.oblik != 'funkcija':
-                    pomocne.izlaz(self)
+                    dhv = c1.dohvati_idn()
+                    if not pomocne.provjeri_egzistenciju(self, dhv.ime):
+                        pomocne.izlaz(self)
 
                 c3.izvedi_svojstva()
 
@@ -170,6 +174,10 @@ class postfiks_izraz(GS.Cvor):
 
                 c1.izvedi_svojstva()
                 if c1.oblik != 'funkcija':
+                    dhv = c1.dohvati_idn()
+                    if not pomocne.provjeri_egzistenciju(self, dhv.ime):
+                        pomocne.izlaz(self)
+
                     pomocne.izlaz(self)
 
                 self.tip = c1.tip
@@ -628,6 +636,9 @@ class bin_xili_izraz(GS.Cvor):
                 if c1.tip != 'int' and c2.tip != 'int':
                     pomocne.izlaz(self)
                 
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
+                    pomocne.izlaz(self)
+
                 self.tip = 'int'
                 self.lizraz = 0
                 self.oblik = None
@@ -796,11 +807,12 @@ class izraz_pridruzivanja(GS.Cvor):
 
                 if c1.lizraz == 0:
                     pomocne.izlaz(self)
-                
-                self.oblik = c3.oblik
-                self.tip = c1.tip
-                if c3.oblik == 'niz' or c3.oblik == 'funkcija':
+                if c3.oblik == 'niz' or c3.oblik == 'funkcija' or  c1.oblik == 'niz' or c1.oblik == 'funkcija':
                     pomocne.izlaz(self)
+
+                self.oblik = None
+                self.tip = c1.tip
+        
                 self.lizraz = 0
             else:
                 pomocne.izlaz(self)
@@ -851,6 +863,7 @@ class slozena_naredba(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
 
     def izvedi_svojstva(self):
+        self.oblik = None
         pomocne.updateaj_blok(self)
         if len(self.children) == 3:
 
@@ -887,6 +900,7 @@ class lista_naredbi(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
 
     def izvedi_svojstva(self):
+        self.oblik = None
         if len(self.children) == 1:
             c1 = self.children[0]
 
@@ -913,6 +927,7 @@ class naredba(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
 
     def izvedi_svojstva(self):
+        self.oblik = None
         if len(self.children) == 1:
             c1 = self.children[0]
             if isinstance(c1, slozena_naredba):
@@ -920,6 +935,7 @@ class naredba(GS.Cvor):
 
             elif isinstance(c1, izraz_naredba):
                 c1.izvedi_svojstva()
+                self.oblik = c1.oblik
 
             elif isinstance(c1, naredba_grananja):
                 c1.izvedi_svojstva()
@@ -953,6 +969,7 @@ class izraz_naredba(GS.Cvor):
 
             if isinstance(c1, izraz) and isinstance(c2, ZK.TOCKAZAREZ):
                 c1.izvedi_svojstva()
+                self.oblik = c1.oblik
                 self.tip = c1.tip
             else:
                 pomocne.izlaz(self)
@@ -976,7 +993,7 @@ class naredba_grananja(GS.Cvor):
 
                 c3.izvedi_svojstva()
 
-                if c3.tip != 'int' or c3.oblik == 'funkcija':
+                if c3.tip != 'int' or c3.oblik == 'funkcija' or c3.oblik == 'niz':
                     pomocne.izlaz(self)
 
                 c5.izvedi_svojstva()
@@ -991,17 +1008,17 @@ class naredba_grananja(GS.Cvor):
             c3 = self.children[2]
             c4 = self.children[3]
             c5 = self.children[4]
-            c6 = self.children[4]
-            c7 = self.children[4]
+            c6 = self.children[5]
+            c7 = self.children[6]
             
             
            
             if isinstance(c1, ZK.KR_IF) and isinstance(c2, ZK.L_ZAGRADA) and isinstance(c3, izraz) \
-                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba) and isinstance(1, int) and isinstance(c7, naredba):
+                and isinstance(c4, ZK.D_ZAGRADA) and isinstance(c5, naredba) and isinstance(c6, ZK.KR_ELSE) and isinstance(c7, naredba):
                 c3.izvedi_svojstva()
                 #print(c3.oblik)
                 #tu je greska sta main shvati ko varijablu, nema oblik
-                if c3.tip != 'int':
+                if c3.tip != 'int' or c3.oblik == 'funkcija' or c3.oblik == 'niz':
                     pomocne.izlaz(self)
 
                 c5.izvedi_svojstva()
@@ -1035,7 +1052,7 @@ class naredba_petlje(GS.Cvor):
 
                 c3.izvedi_svojstva()
 
-                if c3.tip != 'int':
+                if c3.tip != 'int' or c3.oblik == 'funkcija' or c3.oblik == 'niz':
                     pomocne.izlaz(self)
 
                 c5.izvedi_svojstva()
@@ -1057,7 +1074,7 @@ class naredba_petlje(GS.Cvor):
                c3.izvedi_svojstva()
                c4.izvedi_svojstva()
 
-               if c4.tip != 'int':
+               if c4.tip != 'int' or c4.oblik == 'funkcija' or c4.oblik == 'niz' or c3.oblik == 'funkcija' or c3.oblik == 'niz':
                     pomocne.izlaz(self)
 
                c6.izvedi_svojstva()
@@ -1083,7 +1100,9 @@ class naredba_petlje(GS.Cvor):
                #oblik se ne propagira do ovdje pa to treba pogledat
 
 
-               if c4.tip != 'int':
+               if c4.tip != 'int' or c4.oblik == 'funkcija' or c4.oblik == 'niz' or c3.oblik == 'funkcija' or c3.oblik == 'niz':
+                #OVO TREBA PROVJERITI JOŠ JEDNOM 
+                #or c5.oblik == 'funkcija' or c5.oblik == 'niz':
                     pomocne.izlaz(self)
                
                c5.izvedi_svojstva()
@@ -1131,7 +1150,7 @@ class naredba_skoka(GS.Cvor):
                 pov = pomocne.tip_funkcije(self, c2.tip) 
                 #print(c2.children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].tip)
 
-                if not pov:
+                if not pov or c2.oblik == 'funkcija' or c2.oblik == 'niz':
                     pomocne.izlaz(self)
 
             else:
@@ -1539,7 +1558,7 @@ class izravni_deklarator(GS.Cvor):
                     pomocne.izlaz(self)
 
                 pomocne.dodaj_argumente(self, [(c1.tip, c1.ime)])
-
+                self.oblik = 'var'
                 #provjeri ime bla bla bla
             else:
                 pomocne.izlaz(self)
@@ -1568,7 +1587,7 @@ class izravni_deklarator(GS.Cvor):
                     pomocne.izlaz(self)
 
                 pomocne.dodaj_lokalni_niz(self, c1.ime, self.ntip, int(c3.vrijednost))
-
+                self.oblik = 'niz'
 
                 #zabilježi deklaraciju i tip!!!!!!!!!!!!!!!!!!!!
 
