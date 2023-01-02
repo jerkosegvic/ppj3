@@ -470,7 +470,8 @@ class aditivni_izraz(GS.Cvor):
                 c3.izvedi_svojstva()
 
                 if c1.tip != 'int' and c3.tip != 'int':
-                    pomocne.izlaz(self)
+                    #pomocne.izlaz(self)
+                    'pass'
                 
                 self.tip = 'int'
                 self.lizraz = 0
