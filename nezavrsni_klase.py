@@ -1538,8 +1538,8 @@ class init_deklarator(GS.Cvor):
                     if tip.startswith('const'):
                         tip = tip[6 : len(tip) - 1]
 
-                    #if c3.broj_elemenata > c1.broj_elemenata:
-                    #    pomocne.izlaz(self)
+                    if c3.broj_elemenata > c1.broj_elemenata:
+                        pomocne.izlaz(self)
 
                     for t in c3.tipovi:
                         if t != tip:
@@ -1611,6 +1611,7 @@ class izravni_deklarator(GS.Cvor):
 
                 pomocne.dodaj_lokalni_niz(self, c1.ime, self.ntip, int(c3.vrijednost))
                 self.oblik = 'niz'
+                self.broj_elemenata = int(c3.vrijednost)
 
                 #zabilježi deklaraciju i tip!!!!!!!!!!!!!!!!!!!!
 
@@ -1674,12 +1675,15 @@ class inicijalizator(GS.Cvor):
             if isinstance(c1, izraz_pridruzivanja):
                 c1.izvedi_svojstva()
                 if c1.postaje_niz_znakova():
-                    
-                    self.broj_elemenata = c1.duljina + 1
+                    nz = c1.dohvati_NIZ_ZNAKOVA()
+                    if nz == None:
+                        pomocne.izlaz(self)
+
+                    self.broj_elemenata = len(nz.duljina)
                     self.tipovi = ['char' for _ in range(self.broj_elemenata)]
                 else:
 
-                    
+                    self.broj_elemenata = 1
                     self.tip = c1.tip
                     self.oblik = c1.oblik
             else:

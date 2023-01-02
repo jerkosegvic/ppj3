@@ -54,6 +54,7 @@ class NIZ_ZNAKOVA(GS.Cvor):
         GS.Cvor.__init__(self, value, dubina, parent)
         self.vrijednost = vr
         self.tip = "niz(const(char))"
+        self.duljina = len(vr)
 
     def izvedi_svojstva(self):
         niz = self.vrijednost
