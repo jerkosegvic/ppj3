@@ -1513,6 +1513,11 @@ class init_deklarator(GS.Cvor):
                     if c3.tip != tip and tip != 'char':
                         pomocne.izlaz(self)
 
+                    
+                    if tip == 'char' and c3.tip == 'int':
+                        pomocne.izlaz(self)
+
+
                 elif tip.startswith('niz'):
 
                     tip = tip[4 : len(tip) - 1]
