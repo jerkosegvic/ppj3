@@ -1231,20 +1231,23 @@ class definicija_funkcije(GS.Cvor):
                 if c1.tip.startswith('const'):
                     pomocne.izlaz(self)
                 
-                uvjet = pomocne.provjeri_egzistenciju(self, c2.ime)
-                uvjet2 = True
+                uvjet = pomocne.provjeri_definiciju(self, c2.ime)
+                
                 if uvjet:
                     pomocne.izlaz(self)
 
                 #4. provjerit postoji li deklaracije funkcije
+                postoji_deklaracija = pomocne.provjeri_egzistenciju(self, c2.ime)
+                if postoji_deklaracija:
+                    uvjet2 = pomocne.provjeri_valjanost_argumenata(self, None) and \
+                        pomocne.tip_funkcije(self, c1.tip)
 
-                uvjet = pomocne.provjeri_valjanost_argumenata(self, None) and \
-                    pomocne.tip_funkcije(self, c1.tip)
-
-                if not uvjet2:
-                    pomocne.izlaz(self)
-                #zabiljezit deklaraciju
-                pomocne.dodaj_lokalnu_funkciju_void(self, c2.ime, c1.tip, True)
+                    if not uvjet2:
+                        pomocne.izlaz(self)
+                   
+                    #zabiljezit deklaraciju
+                else:
+                    pomocne.dodaj_lokalnu_funkciju_void(self, c2.ime, c1.tip, True)
                 
                 c6.izvedi_svojstva()
                 self.oblik = 'definirana_funkcija'
@@ -1257,20 +1260,22 @@ class definicija_funkcije(GS.Cvor):
                 if c1.tip.startswith('const'):
                     pomocne.izlaz(self)
 
-                uvjet = pomocne.provjeri_egzistenciju(self, c2.ime)
+                uvjet = pomocne.provjeri_definiciju(self, c2.ime)
 
                 if uvjet:
                     pomocne.izlaz(self)
 
                 c4.izvedi_svojstva()
 
-                uvjet = pomocne.provjeri_valjanost_argumenata(self, c4.tipovi) and \
-                    pomocne.tip_funkcije(self, c1.tip)
+                postoji_deklaracija = pomocne.provjeri_egzistenciju(self, c2.ime)
+                if postoji_deklaracija:
+                    uvjet2 = pomocne.provjeri_valjanost_argumenata(self, c4.tipovi) and \
+                        pomocne.tip_funkcije(self, c1.tip)
 
-                tipovi_tuplovi = list(zip(c4.tipovi, c4.imena))
-                pomocne.dodaj_lokalnu_funkciju(self, c2.ime, c1.tip, True, tipovi_tuplovi)
-
-                pomocne.dodaj_argumente(c6, tipovi_tuplovi)
+                else:
+                    tipovi_tuplovi = list(zip(c4.tipovi, c4.imena))
+                    pomocne.dodaj_lokalnu_funkciju(self, c2.ime, c1.tip, True, tipovi_tuplovi)
+                    pomocne.dodaj_argumente(c6, tipovi_tuplovi)
 
                 c6.izvedi_svojstva()
                 self.oblik = 'definirana_funkcija'

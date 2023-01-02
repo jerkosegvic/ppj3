@@ -161,6 +161,26 @@ def provjeri_egzistenciju(cvor, ime):
         else:
             return provjeri_egzistenciju(cvor.parent, ime)
 
+def provjeri_definiciju(cvor, ime):
+    id_bloka = GS.Cvor.tablice[cvor.id]
+    blok_cvor = PS.Cvor.cvorovi[id_bloka]
+    if ime in blok_cvor.tablica_lokalnih_funkcija.keys():
+        dek = blok_cvor.tablica_lokalnih_funkcija[ime]
+        if isinstance(dek, D.funkcija):
+            return dek.definirana
+        else:
+            return False
+    elif ime in blok_cvor.nasljedena_tablica_funkcija.keys():
+        dek = blok_cvor.nasljedena_tablica_funkcija[ime]
+        if isinstance(dek, D.funkcija):
+            return dek.definirana
+        else:
+            return False
+    else:
+        if blok_cvor.parent == None:
+            return False
+        else:
+            return provjeri_definiciju(cvor.parent, ime)
 
 def dodaj_lokalnu_funkciju_void(cvor, ime, tip, definirana):
     id_bloka = GS.Cvor.tablice[cvor.id]
@@ -302,6 +322,13 @@ def provjeri_main():
     if 'main' not in cvor.tablica_lokalnih_funkcija.keys():
         print('main')
         exit(0)
+    else:
+        if cvor.tablica_lokalnih_funkcija['main'].tip != 'int':
+            print('main')
+            exit(0)
+        if cvor.tablica_lokalnih_funkcija['main'].parametri != None:
+            print('main')
+            exit(0)
 
 def provjeri_definicije():
     funkcije = {}
