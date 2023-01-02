@@ -1520,8 +1520,8 @@ class init_deklarator(GS.Cvor):
                     if tip.startswith('const'):
                         tip = tip[6 : len(tip) - 1]
 
-                    if c3.broj_elemenata > c1.broj_elemenata:
-                        pomocne.izlaz(self)
+                    #if c3.broj_elemenata > c1.broj_elemenata:
+                    #    pomocne.izlaz(self)
 
                     for t in c3.tipovi:
                         if t != tip:
@@ -1588,7 +1588,6 @@ class izravni_deklarator(GS.Cvor):
 
                 if uvjet:
                     pomocne.izlaz(self)
-
                 if int(c3.vrijednost) <= 0 or int(c3.vrijednost) > 1024:
                     pomocne.izlaz(self)
 
@@ -1665,6 +1664,20 @@ class inicijalizator(GS.Cvor):
                     c1.izvedi_svojstva()
                     self.tip = c1.tip
                     self.oblik = c1.oblik
+            else:
+                pomocne.izlaz(self)
+        
+        elif len(self.children) == 3:
+            c1 = self.children[0]
+            c2 = self.children[1]
+            c3 = self.children[2]
+
+            if isinstance(c1, ZK.L_VIT_ZAGRADA) and isinstance(c2, lista_izraza_pridruzivanja) \
+                and isinstance(c3, ZK.D_VIT_ZAGRADA):
+
+                c2.izvedi_svojstva()
+                self.broj_elemenata = c2.broj_elemenata
+                self.tipovi = c2.tipovi
 
 
             else:
